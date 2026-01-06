@@ -1,35 +1,81 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/Icon.astro";
+import IconBullet from "../components/IconBullet.astro";
 ---
 
 <BaseLayout>
-  <section class="hero container">
-    <div>
-      <p class="eyebrow">SAP Technical Consultant</p>
-      <h1>Salah AITELMOUMEN</h1>
-      <p class="lead">
-        I build reliable S/4HANA services, clean Fiori UX, and scalable RAP architectures that ship
-        fast.
-      </p>
-      <div class="badge-list">
-        <span class="badge">SAP Fiori Certified</span>
-        <span class="badge">SAP S/4HANA Sales Certified</span>
-        <span class="badge">ABAP Cloud Developer (in progress)</span>
+  <section class="welcome-section">
+    <div class="container welcome-grid">
+      <div class="welcome-text">
+        <h1>Bienvenue.</h1>
+        <p class="lead">
+          Je m'appelle Salah AITELMOUMEN, Consultant SAP Technique avec bient&ocirc;t 3 ans
+          d'exp&eacute;rience. Je suis tr&egrave;s &agrave; l'aise en ABAP, certifi&eacute; SAP Fiori
+          et SAP S/4HANA Sales, et je monte en comp&eacute;tence sur SAP RAP et les outils de
+          d&eacute;veloppement SAP modernes. Ce site est mon portfolio : j'esp&egrave;re que
+          l'exp&eacute;rience vous sera agr&eacute;able. N'h&eacute;sitez pas &agrave; me contacter
+          pour une opportunit&eacute;, ou simplement pour &eacute;changer.
+        </p>
       </div>
-      <div class="actions">
-        <a class="button primary" href="/projects/coffee-subscription">View RAP Case Study</a>
-        <a class="button ghost" href="/cv/CV_FR.pdf" download="Salah_AITELMOUMEN_CV_FR.pdf">
-          Download CV
-        </a>
+      <div class="welcome-divider" aria-hidden="true"></div>
+      <div class="welcome-photo">
+        <img
+          src="/profile/salah.jpg"
+          alt="Salah AITELMOUMEN - SAP Technical Consultant"
+          class="profile-photo"
+          loading="lazy"
+        />
       </div>
     </div>
+  </section>
+
+  <section class="section container">
     <div class="card hero-card">
-      <h2>Proof of Work</h2>
-      <ul class="checklist">
-        <li>RAP services for S/4HANA transactional workflows.</li>
-        <li>Fiori UX and OData V4 service design.</li>
-        <li>QM automation for stock and quality controls.</li>
+      <h2>Expertise terrain</h2>
+      <ul class="expertise-list">
+        <li>
+          <IconBullet
+            icon="code"
+            title="Developpement ABAP OO"
+            text=" : programmes Z, ALV, SmartForms, IDocs, BAPIs, BADIs, User-Exits et enhancements."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="layers"
+            title="SAP Fiori / UI5"
+            text=" : applications Fiori, UI5 freestyle, CDS Views, SAP Gateway, OData V2 &amp; V4, tests via Postman."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="workflow"
+            title="ABAP RAP (en montee en puissance)"
+            text=" : ADT, CDS entities, Behavior Definitions (BDEF), Service Binding, OData V4."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="file"
+            title="Documentation technique"
+            text=" : analyses techniques, specifications, tests unitaires, documentation end-to-end des solutions."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="settings"
+            title="Analyse fonctionnelle SD &amp; parametrage SPRO"
+            text=" : comprehension des flux metiers et integration technico-fonctionnelle."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="shield"
+            title="Sujets transverses &amp; performance"
+            text=" : transports (STMS), autorisations (SU53), analyse de performance (ST05, SAT)."
+          />
+        </li>
       </ul>
     </div>
   </section>
