@@ -1,5 +1,6 @@
-﻿---
+---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 ---
 
 <BaseLayout title="Contact | Consultant SAP Technique">
@@ -8,13 +9,42 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <p class="lead">Disponible pour echanger sur vos besoins SAP.</p>
     <div class="section">
       <div class="card">
-        <p><strong>Email</strong>: <a href="mailto:email@example.com">email@example.com</a></p>
         <p>
-          <strong>LinkedIn</strong>:
+          <strong><Icon name="mail" /> Email</strong>:
+          <a href="mailto:salahaitelmoumen@gmail.com">salahaitelmoumen@gmail.com</a>
+        </p>
+        <p>
+          <strong><Icon name="linkedin" /> LinkedIn</strong>:
           <a href="https://www.linkedin.com/in/votre-profil" target="_blank" rel="noreferrer">
             linkedin.com/in/votre-profil
           </a>
         </p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h2>Contact Form</h2>
+        <form
+          class="contact-form"
+          method="POST"
+          action="mailto:salahaitelmoumen@gmail.com?subject=Contact%20from%20portfolio%20website"
+          enctype="text/plain"
+        >
+          <div class="form-field">
+            <label for="contact-name">Name</label>
+            <input id="contact-name" name="Name" type="text" required />
+          </div>
+          <div class="form-field">
+            <label for="contact-email">Email</label>
+            <input id="contact-email" name="Email" type="email" required />
+          </div>
+          <div class="form-field">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="Message" rows="6" required></textarea>
+          </div>
+          <button class="button primary" type="submit">Send Message</button>
+        </form>
       </div>
     </div>
   </section>

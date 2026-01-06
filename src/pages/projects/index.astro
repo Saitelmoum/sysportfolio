@@ -1,40 +1,47 @@
-﻿---
+---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
 ---
 
 <BaseLayout title="Projets | Consultant SAP Technique">
   <section class="container">
-    <h1>Projets</h1>
-    <p class="lead">Selection de cas d'usage SAP et prototypes recents.</p>
+    <h1>Projects</h1>
+    <p class="lead">Selection of SAP delivery work, proof-of-concepts, and in-progress builds.</p>
 
     <div class="section grid">
-      <article class="card">
-        <h2>Coffee Subscription (RAP)</h2>
-        <p>Service RAP complet pour la gestion d'abonnements et commandes recurrentes.</p>
-        <div>
-          <span class="tag">RAP</span>
+      <article class="card featured">
+        <h2>Coffee Subscription (RAP) [Featured]</h2>
+        <p>Full RAP service for subscription management and recurring order processing.</p>
+        <div class="tag-row">
+          <span class="tag-label"><Icon name="tag" />Tags</span>
+          <span class="tag">RAP Managed</span>
+          <span class="tag">Draft</span>
           <span class="tag">OData V4</span>
-          <span class="tag">Fiori</span>
+          <span class="tag">Fiori elements</span>
         </div>
-        <p class="note"><a href="/projects/coffee-subscription">Voir le case study</a></p>
+        <p class="note"><a href="/projects/coffee-subscription">Open case study</a></p>
       </article>
 
       <article class="card">
-        <h2>QM Stock Automation</h2>
-        <p>Automatisation des controles stock et notifications qualite SAP QM.</p>
-        <div>
+        <h2>SAP QM Stock Automation [WIP]</h2>
+        <p>Automation for SAP QM inspections, stock checks, and notification flows.</p>
+        <div class="tag-row">
+          <span class="tag-label"><Icon name="tag" />Tags</span>
           <span class="tag">QM</span>
           <span class="tag">ABAP</span>
+          <span class="tag">Workflow</span>
         </div>
         <span class="status wip">WIP</span>
       </article>
 
       <article class="card">
-        <h2>BTP/CAP Mini App</h2>
-        <p>Micro-application CAP pour collecter et exposer des donnees metier.</p>
-        <div>
+        <h2>BTP/CAP Mini App [Planned]</h2>
+        <p>CAP micro-app planned for data capture and service exposure on SAP BTP.</p>
+        <div class="tag-row">
+          <span class="tag-label"><Icon name="tag" />Tags</span>
           <span class="tag">BTP</span>
           <span class="tag">CAP</span>
+          <span class="tag">API</span>
         </div>
         <span class="status planned">Planned</span>
       </article>

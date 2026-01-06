@@ -1,5 +1,6 @@
-﻿---
+---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 ---
 
 <BaseLayout title="Profil | Consultant SAP Technique">
@@ -15,7 +16,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <h2>Core Skills</h2>
       <div class="grid">
         <div class="card">
-          <h3>ABAP & S/4HANA</h3>
+          <h3>ABAP &amp; S/4HANA</h3>
           <p>Developpement ABAP OO, CDS Views, performance, integration S/4HANA.</p>
         </div>
         <div class="card">
@@ -30,25 +31,31 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
 
     <div class="section">
-      <h2>Currently Learning</h2>
+      <h2>Currently Preparing</h2>
       <ul class="list">
-        <li>RAP avance et comportement des entites.</li>
-        <li>SAP BTP, CAP et strategie d'integration cloud.</li>
-        <li>API-led architecture pour scenarios S/4HANA.</li>
+        <li>ABAP Cloud Developer (in progress).</li>
       </ul>
     </div>
 
-    <div class="section">
-      <h2>Certifications</h2>
-      <p class="badge">SAP Fiori Certified</p>
-      <p class="note">Preparing SAP S/4HANA Sales certification</p>
+    <div class="section" id="certifications">
+      <h2><Icon name="award" /> Certifications</h2>
+      <div class="badge-list">
+        <span class="badge">SAP Fiori Certified</span>
+        <span class="badge">SAP S/4HANA Sales Certified</span>
+      </div>
     </div>
 
     <div class="section">
       <h2>CV</h2>
       <div class="actions">
-        <a class="button primary" href="/cv/CV_FR.pdf" download="Salah_AITELMOUMEN_CV_FR.pdf">Telecharger CV FR</a>
-        <a class="button ghost" href="/cv/CV_EN.pdf" download="Salah_AITELMOUMEN_CV_EN.pdf">Download CV EN</a>
+        <a class="button primary" href="/cv/CV_FR.pdf" download="Salah_AITELMOUMEN_CV_FR.pdf">
+          Telecharger CV FR
+        </a>
+        <a href="/cv/CV_FR.pdf" target="_blank" rel="noopener">Voir en ligne</a>
+        <a class="button ghost" href="/cv/CV_EN.pdf" download="Salah_AITELMOUMEN_CV_EN.pdf">
+          Download CV EN
+        </a>
+        <a href="/cv/CV_EN.pdf" target="_blank" rel="noopener">View online</a>
       </div>
     </div>
   </section>

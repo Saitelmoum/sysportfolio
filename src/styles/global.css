@@ -1,17 +1,19 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Manrope:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
 :root {
-  --bg: #f6f1e8;
-  --bg-deep: #efe6d8;
-  --ink: #1f1b16;
-  --muted: #5a5248;
-  --accent: #0f6b5c;
-  --accent-strong: #0a4a41;
-  --accent-warm: #e08a3a;
-  --card: #ffffff;
-  --border: rgba(31, 27, 22, 0.12);
-  --shadow: 0 20px 50px rgba(31, 27, 22, 0.08);
-  --radius: 20px;
+  --bg: #0b1220;
+  --bg-deep: #070d17;
+  --ink: #eaf0f6;
+  --muted: #9fb0c4;
+  --accent: #0a6ed1;
+  --accent-strong: #0b5bb0;
+  --accent-warm: #3aa0ff;
+  --card: #0f1828;
+  --border: rgba(234, 240, 246, 0.12);
+  --shadow: 0 24px 50px rgba(5, 10, 20, 0.45);
+  --radius: 16px;
+  --chip: rgba(10, 110, 209, 0.16);
+  --chip-border: rgba(10, 110, 209, 0.35);
 }
 
 * {
@@ -25,7 +27,7 @@ body {
 }
 
 body {
-  font-family: "Manrope", "Segoe UI", sans-serif;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
   color: var(--ink);
   background: var(--bg);
   min-height: 100vh;
@@ -38,7 +40,7 @@ a {
 }
 
 a:hover {
-  color: var(--accent-strong);
+  color: var(--accent);
 }
 
 img {
@@ -73,21 +75,24 @@ img {
 
 .bg-wash {
   background:
-    radial-gradient(circle at 10% 20%, rgba(224, 138, 58, 0.18), transparent 50%),
-    radial-gradient(circle at 85% 15%, rgba(15, 107, 92, 0.2), transparent 45%),
-    linear-gradient(140deg, var(--bg) 0%, var(--bg-deep) 100%);
+    radial-gradient(circle at 10% 20%, rgba(10, 110, 209, 0.2), transparent 50%),
+    radial-gradient(circle at 85% 15%, rgba(58, 160, 255, 0.12), transparent 45%),
+    linear-gradient(150deg, var(--bg) 0%, var(--bg-deep) 100%);
 }
 
 .bg-orbit {
   z-index: -1;
   background:
-    radial-gradient(circle at 60% 70%, rgba(15, 107, 92, 0.12), transparent 55%),
-    radial-gradient(circle at 30% 80%, rgba(31, 27, 22, 0.08), transparent 50%);
+    radial-gradient(circle at 60% 70%, rgba(10, 110, 209, 0.12), transparent 55%),
+    radial-gradient(circle at 30% 80%, rgba(234, 240, 246, 0.06), transparent 50%);
   filter: blur(8px);
 }
 
 .site-header {
   padding: 26px 0;
+  border-bottom: 1px solid var(--border);
+  background: rgba(11, 18, 32, 0.85);
+  backdrop-filter: blur(6px);
 }
 
 .nav {
@@ -128,8 +133,9 @@ img {
 .nav-cta {
   padding: 8px 16px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--card);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
 }
 
 .hero {
@@ -140,7 +146,6 @@ img {
 }
 
 .hero h1 {
-  font-family: "Fraunces", serif;
   font-size: clamp(2rem, 4vw, 3.2rem);
   line-height: 1.15;
   margin: 0 0 16px;
@@ -150,8 +155,15 @@ img {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.75rem;
-  color: var(--muted);
+  color: var(--accent-warm);
   margin: 0 0 10px;
+}
+
+.badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
 }
 
 .badge {
@@ -160,11 +172,11 @@ img {
   gap: 8px;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(15, 107, 92, 0.12);
-  color: var(--accent-strong);
+  background: var(--chip);
+  border: 1px solid var(--chip-border);
+  color: var(--accent-warm);
   font-weight: 600;
   font-size: 0.85rem;
-  margin-bottom: 16px;
 }
 
 .lead {
@@ -176,7 +188,7 @@ img {
 .note {
   margin: 0 0 24px;
   font-weight: 600;
-  color: var(--accent-strong);
+  color: var(--accent-warm);
 }
 
 .actions {
@@ -193,7 +205,7 @@ img {
   border-radius: 999px;
   font-weight: 600;
   border: 1px solid transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .button.primary {
@@ -205,10 +217,43 @@ img {
 .button.ghost {
   border-color: var(--border);
   background: transparent;
+  color: var(--ink);
 }
 
 .button:hover {
   transform: translateY(-2px);
+}
+
+.contact-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+}
+
+.form-field label {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.form-field input,
+.form-field textarea {
+  background: #0b1324;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--ink);
+  font: inherit;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: 2px solid rgba(10, 110, 209, 0.35);
+  border-color: rgba(10, 110, 209, 0.6);
 }
 
 .card {
@@ -219,8 +264,12 @@ img {
   box-shadow: var(--shadow);
 }
 
+.card.featured {
+  border-color: rgba(10, 110, 209, 0.5);
+  box-shadow: 0 24px 50px rgba(10, 110, 209, 0.2);
+}
+
 .hero-card h2 {
-  font-family: "Fraunces", serif;
   margin-top: 0;
 }
 
@@ -237,7 +286,7 @@ img {
 }
 
 .checklist li::before {
-  content: "*";
+  content: ">";
   position: absolute;
   left: 0;
   color: var(--accent-warm);
@@ -249,7 +298,6 @@ img {
 }
 
 .section h2 {
-  font-family: "Fraunces", serif;
   margin-bottom: 16px;
 }
 
@@ -263,9 +311,27 @@ img {
   display: inline-flex;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(31, 27, 22, 0.08);
+  background: rgba(234, 240, 246, 0.06);
+  border: 1px solid var(--border);
   font-size: 0.8rem;
   margin-right: 8px;
+}
+
+.tag-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.tag-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 .status {
@@ -279,13 +345,13 @@ img {
 }
 
 .status.wip {
-  background: rgba(224, 138, 58, 0.18);
-  color: #8a4b18;
+  background: rgba(245, 159, 0, 0.16);
+  color: #ffd36a;
 }
 
 .status.planned {
-  background: rgba(15, 107, 92, 0.12);
-  color: var(--accent-strong);
+  background: rgba(10, 110, 209, 0.18);
+  color: #8dc6ff;
 }
 
 .list {
@@ -294,18 +360,18 @@ img {
 }
 
 .case-diagram {
-  background: #1b1f1d;
-  color: #f4f1ea;
+  background: #0d1422;
+  color: #eaf0f6;
   padding: 16px;
   border-radius: 16px;
   overflow-x: auto;
-  font-family: ui-monospace, Consolas, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace;
 }
 
 .site-footer {
   border-top: 1px solid var(--border);
   padding: 32px 0 40px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(7, 13, 23, 0.6);
 }
 
 .footer-grid {
@@ -327,6 +393,14 @@ img {
 .footer-note {
   margin: 0 0 6px;
   color: var(--muted);
+}
+
+.icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  color: var(--accent);
+  flex-shrink: 0;
 }
 
 @media (max-width: 720px) {

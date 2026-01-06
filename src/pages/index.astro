@@ -1,34 +1,78 @@
-﻿---
+---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 ---
 
 <BaseLayout>
   <section class="hero container">
     <div>
       <p class="eyebrow">SAP Technical Consultant</p>
-      <span class="badge">SAP Fiori Certified</span>
-      <h1>
-        Consultant SAP Technique &mdash; ABAP (confirm&eacute;) | SAP Fiori (certifi&eacute;) | En
-        progression sur RAP, BTP &amp; CAP
-      </h1>
+      <h1>Salah AITELMOUMEN</h1>
       <p class="lead">
-        J'accompagne les equipes SAP sur des parcours S/4HANA fiables, des interfaces Fiori claires
-        et des services ABAP robustes.
+        I build reliable S/4HANA services, clean Fiori UX, and scalable RAP architectures that ship
+        fast.
       </p>
-      <p class="note">Preparing SAP S/4HANA Sales certification</p>
+      <div class="badge-list">
+        <span class="badge">SAP Fiori Certified</span>
+        <span class="badge">SAP S/4HANA Sales Certified</span>
+        <span class="badge">ABAP Cloud Developer (in progress)</span>
+      </div>
       <div class="actions">
-        <a class="button primary" href="/projects/coffee-subscription">Voir l'etude de cas</a>
-        <a class="button ghost" href="/about">Profil &amp; competences</a>
+        <a class="button primary" href="/projects/coffee-subscription">View RAP Case Study</a>
+        <a class="button ghost" href="/cv/CV_FR.pdf" download="Salah_AITELMOUMEN_CV_FR.pdf">
+          Download CV
+        </a>
       </div>
     </div>
     <div class="card hero-card">
-      <h2>Focus MVP</h2>
+      <h2>Proof of Work</h2>
       <ul class="checklist">
-        <li>Conception de services RAP et CDS pour apps metier.</li>
-        <li>Integration Fiori UX, OData V4 et bonnes pratiques UX.</li>
-        <li>Automatisation SAP QM et flux d'approvisionnement.</li>
-        <li>Exploration BTP, CAP et architectures cloud SAP.</li>
+        <li>RAP services for S/4HANA transactional workflows.</li>
+        <li>Fiori UX and OData V4 service design.</li>
+        <li>QM automation for stock and quality controls.</li>
       </ul>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Featured Projects</h2>
+    <div class="grid">
+      <article class="card featured">
+        <h3>Coffee Subscription (RAP) [Featured]</h3>
+        <p>End-to-end RAP service for subscription management and recurring orders.</p>
+        <div class="tag-row">
+          <span class="tag-label"><Icon name="tag" />Tags</span>
+          <span class="tag">RAP Managed</span>
+          <span class="tag">Draft</span>
+          <span class="tag">OData V4</span>
+          <span class="tag">Fiori elements</span>
+        </div>
+        <p class="note"><a href="/projects/coffee-subscription">Open case study</a></p>
+      </article>
+
+      <article class="card">
+        <h3>SAP QM Stock Automation [WIP]</h3>
+        <p>Automation for SAP QM inspections, stock checks, and notification flows.</p>
+        <div class="tag-row">
+          <span class="tag-label"><Icon name="tag" />Tags</span>
+          <span class="tag">QM</span>
+          <span class="tag">ABAP</span>
+          <span class="tag">Workflow</span>
+        </div>
+        <span class="status wip">WIP</span>
+      </article>
+
+      <article class="card">
+        <h3>BTP/CAP Mini App [Planned]</h3>
+        <p>Planned CAP micro-app for data capture and service exposure on BTP.</p>
+        <div class="tag-row">
+          <span class="tag-label"><Icon name="tag" />Tags</span>
+          <span class="tag">BTP</span>
+          <span class="tag">CAP</span>
+          <span class="tag">API</span>
+        </div>
+        <span class="status planned">Planned</span>
+      </article>
     </div>
   </section>
 </BaseLayout>

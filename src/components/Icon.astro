@@ -1,0 +1,16 @@
+---
+import { icons } from "lucide";
+
+const { name, size = 16, strokeWidth = 1.75, className = "icon" } = Astro.props;
+const icon = icons[name];
+const svg = icon
+  ? icon.toSvg({
+      class: className,
+      width: size,
+      height: size,
+      "stroke-width": strokeWidth,
+    })
+  : "";
+---
+
+<span class={className} aria-hidden="true" set:html={svg}></span>
