@@ -332,6 +332,12 @@ img {
   margin-top: 16px;
 }
 
+.form-status {
+  margin: 0;
+  font-weight: 500;
+  color: var(--sap-muted);
+}
+
 .form-field {
   display: grid;
   gap: 8px;
