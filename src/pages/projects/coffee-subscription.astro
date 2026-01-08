@@ -4,130 +4,133 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
 <BaseLayout title="Coffee Subscription | Etude de cas">
   <section class="container case-hero">
-    <div class="case-hero__intro">
-      <div class="section-title">
-        <span class="section-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M4 6h16"></path>
-            <path d="M4 12h16"></path>
-            <path d="M4 18h16"></path>
-          </svg>
-        </span>
-        <div>
-          <h1>Coffee Subscription</h1>
-          <p class="subtitle">
-            &Eacute;tude de cas &mdash; ABAP RAP (Managed + Draft) &bull; OData V4 &bull; Fiori Elements
-          </p>
-        </div>
-      </div>
+    <div>
+      <h1>Coffee Subscription</h1>
+      <p class="subtitle">
+        &Eacute;tude de cas &mdash; SAP ABAP RAP (Managed, Draft, OData V4, Fiori Elements)
+      </p>
       <div class="badge-list">
-        <span class="badge">ABAP RAP</span>
+        <span class="badge">RAP</span>
         <span class="badge">CDS</span>
         <span class="badge">BDEF</span>
         <span class="badge">Draft</span>
+        <span class="badge">Validations</span>
+        <span class="badge">Determinations</span>
         <span class="badge">OData V4</span>
         <span class="badge">ADT</span>
-        <span class="badge">Fiori Elements</span>
-      </div>
-      <div class="actions">
-        <a class="button primary" href="#screens">Voir les captures</a>
-        <a class="button ghost" href="#architecture">Voir l&rsquo;architecture</a>
-        <a class="button ghost" href="/projects">Retour aux projets</a>
-      </div>
-    </div>
-    <div class="case-hero__toc">
-      <div class="card toc-card">
-        <div class="card-title">Navigation rapide</div>
-        <nav class="toc">
-          <a href="#contexte">Contexte</a>
-          <a href="#resultat">R&eacute;sultat</a>
-          <a href="#architecture">Architecture</a>
-          <a href="#chronologie">Chronologie</a>
-          <a href="#tech">Points techniques</a>
-          <a href="#debug">Debug &amp; difficult&eacute;s</a>
-          <a href="#ressources">Ressources</a>
-          <a href="#blog">Prochain blog</a>
-        </nav>
       </div>
     </div>
   </section>
 
-  <section class="container case-layout">
+  <section class="container case-shell">
+    <aside class="case-sidebar">
+      <div class="card case-nav">
+        <div class="card-title">Navigation rapide</div>
+        <nav>
+          <a href="#architecture">Architecture</a>
+          <a href="#artefacts">Artefacts ADT</a>
+          <a href="#chronologie">Chronologie</a>
+          <a href="#regles">R&egrave;gles m&eacute;tier</a>
+          <a href="#draft">Draft &amp; erreurs</a>
+          <a href="#vh">Value Helps</a>
+          <a href="#debug">Debug &amp; difficult&eacute;s</a>
+          <a href="#conclusion">Conclusion</a>
+        </nav>
+      </div>
+    </aside>
+
     <div class="case-main">
-      <section id="contexte" class="section">
-        <div class="section-title">
-          <span class="section-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="9"></circle>
-              <path d="M12 8v8"></path>
-              <path d="M8 12h8"></path>
-            </svg>
-          </span>
-          <h2>Contexte</h2>
+      <details class="case-nav-mobile">
+        <summary>Navigation rapide</summary>
+        <nav>
+          <a href="#architecture">Architecture</a>
+          <a href="#artefacts">Artefacts ADT</a>
+          <a href="#chronologie">Chronologie</a>
+          <a href="#regles">R&egrave;gles m&eacute;tier</a>
+          <a href="#draft">Draft &amp; erreurs</a>
+          <a href="#vh">Value Helps</a>
+          <a href="#debug">Debug &amp; difficult&eacute;s</a>
+          <a href="#conclusion">Conclusion</a>
+        </nav>
+      </details>
+
+      <section class="section">
+        <div class="card case-summary">
+          <h2>Contexte m&eacute;tier &amp; &eacute;tude de cas</h2>
+          <p class="muted">
+            Ce projet s&rsquo;inscrit dans ma mont&eacute;e en comp&eacute;tence sur RAP, men&eacute;e en parall&egrave;le de
+            mes missions. L&rsquo;objectif est de simuler un cas proche de la production, avec une
+            architecture robuste, des r&egrave;gles m&eacute;tier claires, une UI Fiori propre et un parcours
+            de debug r&eacute;aliste. Le tout en respectant les bonnes pratiques SAP pour un delivery
+            propre et maintenable.
+          </p>
         </div>
-        <p class="lead">
-          Depuis quelques mois, je suis en mont&eacute;e en comp&eacute;tence sur RAP en parall&egrave;le
-          de mes missions. Apr&egrave;s avoir consolid&eacute; la th&eacute;orie, j&rsquo;ai construit
-          ce projet pour simuler un sc&eacute;nario proche de la production. L&rsquo;objectif &eacute;tait
-          de livrer une application RAP de bout en bout, avec r&egrave;gles m&eacute;tier, draft,
-          validations, determinations et une UI propre et coh&eacute;rente. Le tout en respectant les
-          standards ADT, OData V4 et Fiori Elements.
-        </p>
+        <details class="accordion-box">
+          <summary>
+            <span class="accordion-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M12 8v8"></path>
+                <path d="M8 12h8"></path>
+              </svg>
+            </span>
+            Ce que d&eacute;montre ce projet
+          </summary>
+          <ul class="accordion-list">
+            <li>Capacit&eacute; &agrave; concevoir un objet m&eacute;tier complet en RAP</li>
+            <li>Compr&eacute;hension du lien m&eacute;tier &harr; technique</li>
+            <li>Ma&icirc;trise des concepts cl&eacute;s (draft, validations, determinations)</li>
+            <li>D&eacute;marche proche d&rsquo;un projet de production</li>
+          </ul>
+        </details>
       </section>
 
-      <section id="resultat" class="section">
+      <section class="section">
         <div class="section-title">
           <span class="section-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24">
+              <path d="M4 6h16"></path>
               <path d="M4 12h16"></path>
-              <path d="M12 4v16"></path>
+              <path d="M4 18h10"></path>
             </svg>
           </span>
-          <h2>R&eacute;sultat final</h2>
+          <h2>Cas m&eacute;tier simul&eacute; &mdash; Coffee Subscription</h2>
         </div>
-        <div class="grid">
-          <article class="card">
-            <div class="card-title">CRUD + Draft</div>
-            <p class="muted">Gestion compl&egrave;te des abonnements avec drafts et reprise.</p>
-          </article>
-          <article class="card">
-            <div class="card-title">Validations / Determinations</div>
-            <p class="muted">Contr&ocirc;les m&eacute;tier &agrave; la sauvegarde et r&egrave;gles automatiques.</p>
-          </article>
-          <article class="card">
-            <div class="card-title">Value Helps + UI Fiori</div>
-            <p class="muted">Aides &agrave; la saisie et &eacute;crans Fiori propres et exploitables.</p>
-          </article>
-        </div>
-        <div class="card table-card">
-          <div class="card-title">Fonctionnalit&eacute;s</div>
-          <div class="table">
-            <div class="table-row table-header">
-              <span>Feature</span>
-              <span>Statut</span>
-              <span>Notes</span>
-            </div>
-            <div class="table-row">
-              <span>CRUD + Draft</span>
-              <span class="status">Fait</span>
-              <span>Gestion des abonnements</span>
-            </div>
-            <div class="table-row">
-              <span>Validations / Determinations</span>
-              <span class="status">Fait</span>
-              <span>R&egrave;gles m&eacute;tier centralis&eacute;es</span>
-            </div>
-            <div class="table-row">
-              <span>Value Helps</span>
-              <span class="status">En cours</span>
-              <span>Am&eacute;lioration des entr&eacute;es</span>
-            </div>
-            <div class="table-row">
-              <span>Extensions UI</span>
-              <span class="status">&Agrave; venir</span>
-              <span>Optimisation UX</span>
-            </div>
-          </div>
+        <div class="card">
+          <p class="muted">
+            L&rsquo;application <strong>Coffee Subscription</strong> simule un cas m&eacute;tier
+            r&eacute;aliste de <strong>gestion d&rsquo;abonnements</strong>, inspir&eacute; de
+            sc&eacute;narios fr&eacute;quemment rencontr&eacute;s en production (abonnements clients,
+            contrats r&eacute;currents, services &agrave; fr&eacute;quence d&eacute;finie).
+          </p>
+          <p class="muted">
+            Le principe est volontairement simple et repr&eacute;sentatif : un client peut
+            souscrire &agrave; un abonnement de caf&eacute; en choisissant <strong>un type de
+            caf&eacute;</strong>, <strong>une fr&eacute;quence de livraison</strong> et
+            <strong>un statut de souscription</strong>. Ces informations sont ensuite g&eacute;r&eacute;es
+            tout au long du <strong>cycle de vie de l&rsquo;abonnement</strong> : cr&eacute;ation,
+            modification, validation et activation.
+          </p>
+          <p class="muted">D&rsquo;un point de vue m&eacute;tier, ce cas est directement comparable &agrave; :</p>
+          <ul class="list">
+            <li>des <strong>abonnements de services</strong> (SaaS, maintenance, contrats r&eacute;currents),</li>
+            <li>des <strong>contrats clients</strong> avec r&egrave;gles de gestion sp&eacute;cifiques,</li>
+            <li>ou plus largement &agrave; des <strong>objets m&eacute;tiers critiques</strong> n&eacute;cessitant un pilotage fin de leur cycle de vie.</li>
+          </ul>
+          <p class="muted">Ce projet m&rsquo;a permis de reproduire des probl&eacute;matiques proches de la production, notamment :</p>
+          <ul class="list">
+            <li>le <strong>contr&ocirc;le des donn&eacute;es</strong> &agrave; la cr&eacute;ation et &agrave; la modification,</li>
+            <li>la <strong>gestion des &eacute;tats</strong> via le mode <em>draft</em>,</li>
+            <li>des <strong>validations m&eacute;tier bloquantes</strong>,</li>
+            <li>des <strong>d&eacute;terminations automatiques</strong>,</li>
+            <li>et l&rsquo;exposition d&rsquo;une <strong>UI Fiori coh&eacute;rente et guid&eacute;e</strong> pour l&rsquo;utilisateur final.</li>
+          </ul>
+          <p class="muted">
+            L&rsquo;objectif n&rsquo;&eacute;tait pas de r&eacute;aliser une simple application &ldquo;d&eacute;mo&rdquo;,
+            mais bien de <strong>concevoir une architecture propre, extensible et maintenable</strong>,
+            align&eacute;e avec les <strong>bonnes pratiques SAP RAP</strong>, dans une logique proche
+            d&rsquo;un <strong>contexte projet r&eacute;el</strong>.
+          </p>
         </div>
       </section>
 
@@ -143,22 +146,28 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           </span>
           <h2>Architecture</h2>
         </div>
-        <div class="card diagram-card">
-          <div class="card-title">Sch&eacute;ma d&rsquo;architecture (a remplacer par image)</div>
-          <!-- Remplacer la source par votre image d'architecture quand elle sera pr&ecirc;te. -->
-          <img class="diagram-placeholder" src="" alt="Sch&eacute;ma d&rsquo;architecture &agrave; ajouter" />
-        </div>
+        <div class="image-placeholder">Sch&eacute;ma d&rsquo;architecture &agrave; ajouter</div>
         <p class="muted">
-          Pipeline : tables DB (persistence/draft) &rarr; CDS Interface (ZI) &rarr; CDS Projection
-          (ZC + UI) &rarr; Behavior (BDEF/ZBP) &rarr; Service Definition &rarr; Service Binding OData V4
-          &rarr; Fiori Elements.
+          Tables &rarr; CDS Interface &rarr; CDS Projection &rarr; BDEF &rarr; Service &rarr; OData V4 &rarr;
+          Fiori Elements.
         </p>
+      </section>
+
+      <section id="artefacts" class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+              <path d="M7 8h10M7 12h10M7 16h6"></path>
+            </svg>
+          </span>
+          <h2>Artefacts ADT</h2>
+        </div>
         <div class="card table-card">
-          <div class="card-title">Artefacts ADT</div>
           <div class="table">
             <div class="table-row table-header">
               <span>Type</span>
-              <span>Nom exemple</span>
+              <span>Exemple</span>
               <span>R&ocirc;le</span>
             </div>
             <div class="table-row">
@@ -167,50 +176,25 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
               <span>Persistence + draft</span>
             </div>
             <div class="table-row">
-              <span>CDS</span>
-              <span>ZI_COFFEE_SUB_TRL, ZC_COFFEE_SUB_TRL, ZC_*_VH</span>
-              <span>Mod&egrave;le et UI</span>
+              <span>CDS Interface</span>
+              <span>ZI_COFFEE_SUB_TRL</span>
+              <span>Mod&egrave;le m&eacute;tier</span>
+            </div>
+            <div class="table-row">
+              <span>CDS Projection</span>
+              <span>ZC_COFFEE_SUB_TRL, ZC_*_VH</span>
+              <span>Exposition UI</span>
             </div>
             <div class="table-row">
               <span>Behavior</span>
               <span>ZBP_I_COFFEE_SUB_TRL</span>
-              <span>R&egrave;gles et impl&eacute;mentation</span>
+              <span>R&egrave;gles et draft</span>
             </div>
             <div class="table-row">
               <span>Service</span>
-              <span>ZUI_COFFEE_SUB_TRL, Binding O4</span>
-              <span>Exposition OData V4</span>
+              <span>ZUI_COFFEE_SUB_TRL + Binding O4</span>
+              <span>OData V4</span>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="screens" class="section">
-        <div class="section-title">
-          <span class="section-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
-              <path d="M8 18h8"></path>
-            </svg>
-          </span>
-          <h2>Captures</h2>
-        </div>
-        <div class="screens-grid">
-          <div class="screen-card">
-            <div class="screen-placeholder"></div>
-            <span class="muted">Capture &agrave; ajouter</span>
-          </div>
-          <div class="screen-card">
-            <div class="screen-placeholder"></div>
-            <span class="muted">Capture &agrave; ajouter</span>
-          </div>
-          <div class="screen-card">
-            <div class="screen-placeholder"></div>
-            <span class="muted">Capture &agrave; ajouter</span>
-          </div>
-          <div class="screen-card">
-            <div class="screen-placeholder"></div>
-            <span class="muted">Capture &agrave; ajouter</span>
           </div>
         </div>
       </section>
@@ -225,200 +209,231 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           </span>
           <h2>Chronologie</h2>
         </div>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <span class="timeline-date">1. Mod&egrave;le de donn&eacute;es</span>
-                <span class="timeline-role">Objectif : structurer persistence et draft.</span>
-              </div>
-              <div class="timeline-body">
-                <div class="timeline-chip">ZCS_SUB_TRL</div>
-                <div class="timeline-chip">ZCS_SUB_TRL_D</div>
-              </div>
-              <div class="screen-row">
-                <div class="screen-placeholder"></div>
-                <div class="screen-placeholder"></div>
-              </div>
-              <pre class="code-block">-- Placeholder SQL / ABAP</pre>
-            </div>
-          </div>
 
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <span class="timeline-date">2. CDS Interface</span>
-                <span class="timeline-role">Objectif : d&eacute;finir ZI et associations.</span>
-              </div>
-              <div class="timeline-body">
-                <div class="timeline-chip">ZI_COFFEE_SUB_TRL</div>
-              </div>
-              <div class="screen-row">
-                <div class="screen-placeholder"></div>
-              </div>
-              <pre class="code-block">@AccessControl.authorizationCheck: #NOT_REQUIRED</pre>
-            </div>
-          </div>
+        <article class="card step-card">
+          <div class="step-header">1. Tables</div>
+          <p class="muted">Objectif : structurer la persistence et le draft.</p>
+          <div class="step-image image-placeholder">Capture ADT &agrave; ajouter</div>
+          <p class="muted">Mise en place des tables ZCS_SUB_TRL et ZCS_SUB_TRL_D.</p>
+          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : base data fiable.</div>
+        </article>
 
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <span class="timeline-date">3. CDS Projection &amp; UI</span>
-                <span class="timeline-role">Objectif : exposer ZC + annotations UI.</span>
-              </div>
-              <div class="timeline-body">
-                <div class="timeline-chip">ZC_COFFEE_SUB_TRL</div>
-                <div class="timeline-chip">ZC_*_VH</div>
-              </div>
-              <div class="screen-row">
-                <div class="screen-placeholder"></div>
-              </div>
-              <pre class="code-block">@UI.lineItem: [&#123; position: 10 &#125;]</pre>
-            </div>
-          </div>
+        <article class="card step-card">
+          <div class="step-header">2. CDS</div>
+          <p class="muted">Objectif : mod&eacute;liser ZI et projections ZC.</p>
+          <div class="step-image image-placeholder">Capture ADT &agrave; ajouter</div>
+          <p class="muted">ZI pour la logique m&eacute;tier, ZC pour l&rsquo;exposition UI.</p>
+          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : s&eacute;paration mod&egrave;le / UI.</div>
+        </article>
 
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <span class="timeline-date">4. Behavior Managed + Draft</span>
-                <span class="timeline-role">Objectif : draft et verrous.</span>
-              </div>
-              <div class="timeline-body">
-                <div class="timeline-chip">BDEF</div>
-                <div class="timeline-chip">ZBP_I_COFFEE_SUB_TRL</div>
-              </div>
-              <div class="screen-row">
-                <div class="screen-placeholder"></div>
-              </div>
-              <pre class="code-block">managed; draft; lock master</pre>
-            </div>
-          </div>
+        <article class="card step-card">
+          <div class="step-header">3. Service Binding</div>
+          <p class="muted">Objectif : exposer l&rsquo;API OData V4.</p>
+          <div class="step-image image-placeholder">Capture ADT &agrave; ajouter</div>
+          <p class="muted">Service Definition + Binding O4 pour Fiori Elements.</p>
+          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : exposition stable.</div>
+        </article>
 
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <span class="timeline-date">5. Validations / Determinations</span>
-                <span class="timeline-role">Objectif : contr&ocirc;les m&eacute;tier.</span>
-              </div>
-              <div class="timeline-body">
-                <div class="timeline-chip">Validation</div>
-                <div class="timeline-chip">Determination</div>
-              </div>
-              <div class="screen-row">
-                <div class="screen-placeholder"></div>
-              </div>
-              <pre class="code-block">validate on save; determine on modify</pre>
+        <article id="draft" class="card step-card">
+          <div class="step-header">4. Draft</div>
+          <p class="muted">Objectif : permettre l&rsquo;&eacute;dition en brouillon.</p>
+          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
+          <details class="code-toggle">
+            <summary>Voir snippet</summary>
+            <pre class="code-block">// TODO: snippet RAP (Draft configuration)</pre>
+          </details>
+          <details class="code-toggle">
+            <summary>Voir explication</summary>
+            <div class="muted">
+              Activation du draft dans le BDEF et gestion du verrouillage pour un sc&eacute;nario multi-utilisateurs.
             </div>
-          </div>
+          </details>
+          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : exp&eacute;rience utilisateur.</div>
+        </article>
 
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <span class="timeline-date">6. Value Helps</span>
-                <span class="timeline-role">Objectif : am&eacute;liorer la saisie.</span>
-              </div>
-              <div class="timeline-body">
-                <div class="timeline-chip">ZC_*_VH</div>
-              </div>
-              <div class="screen-row">
-                <div class="screen-placeholder"></div>
-              </div>
-            </div>
-          </div>
+        <article class="card step-card">
+          <div class="step-header">5. Validations</div>
+          <p class="muted">Objectif : contr&ocirc;les m&eacute;tier &agrave; la sauvegarde.</p>
+          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
+          <details class="code-toggle">
+            <summary>Voir snippet</summary>
+            <pre class="code-block">// TODO: snippet RAP (Validation quantity)</pre>
+          </details>
+          <details class="code-toggle">
+            <summary>Voir explication</summary>
+            <div class="muted">R&egrave;gles de coh&eacute;rence appliqu&eacute;es avant activation.</div>
+          </details>
+          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : qualit&eacute; des donn&eacute;es.</div>
+        </article>
 
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <span class="timeline-date">7. Service Binding OData V4</span>
-                <span class="timeline-role">Objectif : exposer et tester.</span>
-              </div>
-              <div class="timeline-body">
-                <div class="timeline-chip">ZUI_COFFEE_SUB_TRL</div>
-                <div class="timeline-chip">Binding O4</div>
-              </div>
-              <div class="screen-row">
-                <div class="screen-placeholder"></div>
-              </div>
-              <pre class="code-block">/IWBEP/IF_MGW_CORE_SRV_RUNTIME</pre>
-            </div>
-          </div>
+        <article class="card step-card">
+          <div class="step-header">6. Determinations</div>
+          <p class="muted">Objectif : automatiser les r&egrave;gles.</p>
+          <div class="step-image image-placeholder">Capture ADT &agrave; ajouter</div>
+          <details class="code-toggle">
+            <summary>Voir snippet</summary>
+            <pre class="code-block">// TODO: snippet RAP (Determination next delivery)</pre>
+          </details>
+          <details class="code-toggle">
+            <summary>Voir explication</summary>
+            <div class="muted">Calcul des champs d&eacute;riv&eacute;s et coh&eacute;rence des statuts.</div>
+          </details>
+          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : coh&eacute;rence m&eacute;tier.</div>
+        </article>
 
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <span class="timeline-date">8. UI finale &amp; tests</span>
-                <span class="timeline-role">Objectif : valider l&rsquo;exp&eacute;rience utilisateur.</span>
-              </div>
-              <div class="timeline-body">
-                <div class="timeline-chip">Fiori Elements</div>
-                <div class="timeline-chip">Postman</div>
-              </div>
-              <div class="screen-row">
-                <div class="screen-placeholder"></div>
-              </div>
-            </div>
-          </div>
+        <article class="card step-card">
+          <div class="step-header">7. Actions</div>
+          <p class="muted">Objectif : d&eacute;clencher des actions cibl&eacute;es.</p>
+          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
+          <details class="code-toggle">
+            <summary>Voir snippet</summary>
+            <pre class="code-block">// TODO: snippet RAP (Action activation)</pre>
+          </details>
+          <details class="code-toggle">
+            <summary>Voir explication</summary>
+            <div class="muted">Actions custom pour activer ou mettre &agrave; jour l&rsquo;abonnement.</div>
+          </details>
+          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : agilit&eacute; fonctionnelle.</div>
+        </article>
+
+        <article id="vh" class="card step-card">
+          <div class="step-header">8. Value Helps</div>
+          <p class="muted">Objectif : simplifier la saisie.</p>
+          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
+          <details class="code-toggle">
+            <summary>Voir snippet</summary>
+            <pre class="code-block">// TODO: snippet RAP (Value Help)</pre>
+          </details>
+          <details class="code-toggle">
+            <summary>Voir explication</summary>
+            <div class="muted">Vues ZC_*_VH pour fiabiliser les entr&eacute;es.</div>
+          </details>
+          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : ergonomie Fiori.</div>
+        </article>
+
+        <article class="card step-card">
+          <div class="step-header">9. Error handling</div>
+          <p class="muted">Objectif : g&eacute;rer les erreurs proprement.</p>
+          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
+          <details class="code-toggle">
+            <summary>Voir snippet</summary>
+            <pre class="code-block">// TODO: snippet RAP (Error handling)</pre>
+          </details>
+          <p class="muted">Messages clairs, erreurs bloquantes et reprise via draft.</p>
+          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : robustesse de l&rsquo;app.</div>
+        </article>
+      </section>
+
+      <section id="regles" class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 6h16"></path>
+              <path d="M4 12h16"></path>
+              <path d="M4 18h10"></path>
+            </svg>
+          </span>
+          <h2>R&egrave;gles m&eacute;tier</h2>
+        </div>
+        <div class="card">
+          <p class="muted">
+            R&egrave;gles de validation &agrave; la sauvegarde, d&eacute;terminations automatiques et
+            coh&eacute;rence des statuts pour simuler un contexte proche de la production.
+          </p>
         </div>
       </section>
 
-      <section id="tech" class="section">
+      <section class="section">
         <div class="section-title">
           <span class="section-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24">
               <path d="M4 12h16"></path>
-              <path d="M8 8h8"></path>
-              <path d="M8 16h8"></path>
+              <path d="M8 6h8"></path>
+              <path d="M8 18h8"></path>
             </svg>
           </span>
-          <h2>Points techniques cl&eacute;s</h2>
+          <h2>Cycle RAP (du point de vue utilisateur)</h2>
         </div>
-        <div class="card table-card">
-          <div class="table">
-            <div class="table-row table-header">
-              <span>Sujet</span>
-              <span>Impl&eacute;mentation</span>
-              <span>Pourquoi c&rsquo;est important</span>
+        <div class="card flow-card">
+          <div class="flow-steps">
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M8 12h8"></path>
+                </svg>
+              </span>
+              <span>Creer un abonnement &rarr; Draft cr&eacute;&eacute;</span>
             </div>
-            <div class="table-row">
-              <span>Draft &amp; locking</span>
-              <span>managed + draft avec verrouillage</span>
-              <span>Conserver l&rsquo;int&eacute;grit&eacute; en multi-utilisateurs</span>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 12h16"></path>
+                  <path d="M12 4v16"></path>
+                </svg>
+              </span>
+              <span>Choix type/frequence &rarr; Value Helps</span>
             </div>
-            <div class="table-row">
-              <span>Validations vs Determinations</span>
-              <span>Validate on save / determine on modify</span>
-              <span>Qualit&eacute; m&eacute;tier et automatisation</span>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 4h16v6H4z"></path>
+                  <path d="M4 14h16v6H4z"></path>
+                </svg>
+              </span>
+              <span>Determinations auto (ex: prochaine livraison)</span>
             </div>
-            <div class="table-row">
-              <span>UI annotations</span>
-              <span>Metadata extension + lineItem</span>
-              <span>UI Fiori coh&eacute;rente</span>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12l4 4L19 6"></path>
+                </svg>
+              </span>
+              <span>Validations (quantit&eacute; &gt; 0, frequence non initiale)</span>
             </div>
-            <div class="table-row">
-              <span>Value Helps</span>
-              <span>Vues ZC_*_VH</span>
-              <span>Ergonomie &amp; fiabilit&eacute; des saisies</span>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 7h16"></path>
+                  <path d="M4 12h16"></path>
+                  <path d="M4 17h10"></path>
+                </svg>
+              </span>
+              <span>Erreur : message affich&eacute;, draft conserv&eacute;</span>
             </div>
-            <div class="table-row">
-              <span>OData V4 binding</span>
-              <span>Service binding + tests metadata</span>
-              <span>Exposition stable pour Fiori</span>
-            </div>
-            <div class="table-row">
-              <span>Approche debug</span>
-              <span>Breakpoints + traces cibl&eacute;es</span>
-              <span>R&eacute;duction du temps d&rsquo;analyse</span>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 5v14"></path>
+                  <path d="M5 12h14"></path>
+                </svg>
+              </span>
+              <span>OK : Enregistrer/Activer &rarr; instance active, draft supprim&eacute;</span>
             </div>
           </div>
+          <p class="muted flow-example">
+            Exemple : Type Arabica, Fr&eacute;quence mensuelle, Quantit&eacute; 3. La prochaine livraison est
+            pr&eacute;-calcul&eacute;e, les validations passent, l&rsquo;instance active est cr&eacute;&eacute;e.
+          </p>
         </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+              <path d="M8 18h8"></path>
+            </svg>
+          </span>
+          <h2>Aper&ccedil;u de l&rsquo;application</h2>
+        </div>
+        <div class="image-placeholder">Capture Fiori &agrave; ajouter</div>
       </section>
 
       <section id="debug" class="section">
@@ -434,79 +449,50 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         </div>
         <div class="grid">
           <article class="card incident-card">
-            <div class="card-title">Sympt&ocirc;me</div>
-            <p class="muted">L&rsquo;application ne s&rsquo;ouvre pas, erreur de m&eacute;tadonn&eacute;es.</p>
-            <div class="card-title">Diagnostic</div>
-            <p class="muted">Criticality mal d&eacute;finie dans la projection UI.</p>
+            <div class="card-title">Probl&egrave;me</div>
+            <p class="muted">M&eacute;tadonn&eacute;es bloquantes, l&rsquo;UI ne s&rsquo;ouvre pas.</p>
+            <div class="card-title">Analyse</div>
+            <p class="muted">Incoh&eacute;rence sur une annotation de criticality.</p>
             <div class="card-title">Correction</div>
-            <p class="muted">Ajustement des annotations et revalidation du service.</p>
-            <div class="card-title">Le&ccedil;on retenue</div>
-            <p class="muted">Toujours tester les m&eacute;tadonn&eacute;es V4 apr&egrave;s chaque change.</p>
+            <p class="muted">Nettoyage des annotations et re-test OData.</p>
+            <div class="card-title">Le&ccedil;on</div>
+            <p class="muted">Toujours valider les m&eacute;tadonn&eacute;es apr&egrave;s un changement.</p>
           </article>
           <article class="card incident-card">
-            <div class="card-title">Sympt&ocirc;me</div>
-            <p class="muted">Draft non sauvegard&eacute; en brouillon.</p>
-            <div class="card-title">Diagnostic</div>
-            <p class="muted">Champ obligatoire manquant dans la persistence.</p>
+            <div class="card-title">Probl&egrave;me</div>
+            <p class="muted">Draft non sauvegard&eacute; correctement.</p>
+            <div class="card-title">Analyse</div>
+            <p class="muted">Champ obligatoire manquant en persistence.</p>
             <div class="card-title">Correction</div>
-            <p class="muted">Alignement structure table et CDS.</p>
-            <div class="card-title">Le&ccedil;on retenue</div>
-            <p class="muted">V&eacute;rifier l&rsquo;alignement DB/CDS tr&egrave;s t&ocirc;t.</p>
+            <p class="muted">Alignement table et CDS.</p>
+            <div class="card-title">Le&ccedil;on</div>
+            <p class="muted">Tester les cas limites d&egrave;s le d&eacute;but.</p>
           </article>
           <article class="card incident-card">
-            <div class="card-title">Sympt&ocirc;me</div>
-            <p class="muted">Erreurs 500 sur actions d&eacute;terminations.</p>
-            <div class="card-title">Diagnostic</div>
-            <p class="muted">Type incoh&eacute;rent dans le code handler.</p>
+            <div class="card-title">Probl&egrave;me</div>
+            <p class="muted">Erreurs sur d&eacute;terminations.</p>
+            <div class="card-title">Analyse</div>
+            <p class="muted">Type non conforme dans le handler.</p>
             <div class="card-title">Correction</div>
-            <p class="muted">Correction des signatures et tests unitaires.</p>
-            <div class="card-title">Le&ccedil;on retenue</div>
-            <p class="muted">Logger et isoler les handlers critiques.</p>
+            <p class="muted">Correction signatures + logs cibl&eacute;s.</p>
+            <div class="card-title">Le&ccedil;on</div>
+            <p class="muted">Isoler les handlers critiques.</p>
           </article>
         </div>
       </section>
 
-      <section id="ressources" class="section">
-        <div class="section-title">
-          <span class="section-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M4 6h16"></path>
-              <path d="M4 12h16"></path>
-              <path d="M4 18h10"></path>
-            </svg>
-          </span>
-          <h2>Ressources</h2>
-        </div>
-        <div class="resources-grid">
-          <div class="card">
-            <div class="card-title">Docs SAP</div>
-            <div class="resource-item">Lien &agrave; ajouter</div>
-            <div class="resource-item">Lien &agrave; ajouter</div>
-          </div>
-          <div class="card">
-            <div class="card-title">SAP Community</div>
-            <div class="resource-item">Lien &agrave; ajouter</div>
-          </div>
-          <div class="card">
-            <div class="card-title">Notes perso</div>
-            <div class="resource-item">Checklist RAP</div>
-            <div class="resource-item">R&egrave;gles UI</div>
-          </div>
-          <div class="card">
-            <div class="card-title">Outils</div>
-            <div class="resource-item">Postman</div>
-            <div class="resource-item">ADT</div>
-          </div>
-        </div>
-      </section>
-
-      <section id="blog" class="section">
+      <section id="conclusion" class="section">
         <div class="card cta-card">
           <div>
-            <h2>Prochain article &mdash; Mes 20% d&rsquo;ADT pour &ecirc;tre productif sur RAP</h2>
-            <p class="muted">Retour sur les r&eacute;flexes qui m&rsquo;ont fait gagner du temps.</p>
+            <h2>Conclusion</h2>
+            <p class="muted">
+              Ce projet m&rsquo;a permis de consolider les bases RAP, de mieux structurer l&rsquo;architecture
+              et d&rsquo;am&eacute;liorer ma capacit&eacute; &agrave; d&eacute;bugger. En V2, j&rsquo;ajouterai des
+              optimisations de performance et davantage d&rsquo;automatisations UI. Prochain focus :
+              un article sur mes 20% d&rsquo;ADT les plus utiles.
+            </p>
           </div>
-          <a class="button ghost" href="/blog/adt-rap" aria-disabled="true">Lire bient&ocirc;t</a>
+          <a class="button ghost" href="/blog/adt-rap">Lire bient&ocirc;t</a>
         </div>
       </section>
     </div>
