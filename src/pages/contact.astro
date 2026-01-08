@@ -55,6 +55,10 @@ import Icon from "../components/Icon.astro";
   if (form) {
     const status = form.querySelector(".form-status");
     const submitButton = form.querySelector("button[type='submit']");
+    const decodeEntities = (value) => {
+      const doc = new DOMParser().parseFromString(value, "text/html");
+      return doc.documentElement.textContent;
+    };
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -78,15 +82,18 @@ import Icon from "../components/Icon.astro";
 
         if (response.ok) {
           form.reset();
-          status.textContent =
-            "Merci ! Votre message a bien &eacute;t&eacute; envoy&eacute;. Je vous r&eacute;pondrai d&egrave;s que possible. Bonne journ&eacute;e ??";
+          status.textContent = decodeEntities(
+            "Merci ! Votre message a bien &eacute;t&eacute; envoy&eacute;. Je vous r&eacute;pondrai d&egrave;s que possible. Bonne journ&eacute;e &#128578;"
+          );
         } else {
-          status.textContent =
-            "Oups? impossible d&rsquo;envoyer le message pour le moment. Vous pouvez me contacter directement &agrave; salahaitelmoumen@gmail.com";
+          status.textContent = decodeEntities(
+            "Oups&hellip; impossible d&rsquo;envoyer le message pour le moment. Vous pouvez me contacter directement &agrave; salahaitelmoumen@gmail.com"
+          );
         }
       } catch (error) {
-        status.textContent =
-          "Oups? impossible d&rsquo;envoyer le message pour le moment. Vous pouvez me contacter directement &agrave; salahaitelmoumen@gmail.com";
+        status.textContent = decodeEntities(
+          "Oups&hellip; impossible d&rsquo;envoyer le message pour le moment. Vous pouvez me contacter directement &agrave; salahaitelmoumen@gmail.com"
+        );
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = "Envoyer le message";
