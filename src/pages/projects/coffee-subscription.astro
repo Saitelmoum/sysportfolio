@@ -146,7 +146,12 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           </span>
           <h2>Architecture</h2>
         </div>
-        <div class="image-placeholder">Sch&eacute;ma d&rsquo;architecture &agrave; ajouter</div>
+        <img
+          class="image-placeholder"
+          src="/profile/Architecture.png"
+          alt="Sch&eacute;ma d&rsquo;architecture Coffee Subscription"
+          loading="lazy"
+        />
         <p class="muted">
           Tables &rarr; CDS Interface &rarr; CDS Projection &rarr; BDEF &rarr; Service &rarr; OData V4 &rarr;
           Fiori Elements.
@@ -213,34 +218,115 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         <article class="card step-card">
           <div class="step-header">1. Tables</div>
           <p class="muted">Objectif : structurer la persistence et le draft.</p>
-          <div class="step-image image-placeholder">Capture ADT &agrave; ajouter</div>
-          <p class="muted">Mise en place des tables ZCS_SUB_TRL et ZCS_SUB_TRL_D.</p>
-          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : base data fiable.</div>
+          <img
+            class="step-image image-placeholder"
+            src="/profile/Table.png"
+            alt="Capture ADT des tables"
+            loading="lazy"
+          />
+          <details class="code-toggle">
+            <summary>Voir explication</summary>
+            <div class="muted">Tables ZCS_SUB_TRL et ZCS_SUB_TRL_D pour la persistence et le draft.</div>
+          </details>
+          <div class="step-takeaway"></div>
         </article>
 
         <article class="card step-card">
           <div class="step-header">2. CDS</div>
           <p class="muted">Objectif : mod&eacute;liser ZI et projections ZC.</p>
-          <div class="step-image image-placeholder">Capture ADT &agrave; ajouter</div>
-          <p class="muted">ZI pour la logique m&eacute;tier, ZC pour l&rsquo;exposition UI.</p>
-          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : s&eacute;paration mod&egrave;le / UI.</div>
+          <img
+            class="step-image image-placeholder"
+            src="/profile/CDSch.png"
+            alt="Capture ADT des CDS"
+            loading="lazy"
+          />
+          <details class="code-toggle">
+            <summary>Voir explication</summary>
+            <div class="muted">Mod&egrave;le m&eacute;tier en CDS Interface et exposition UI en CDS Projection.</div>
+          </details>
+          <div class="step-takeaway"></div>
         </article>
 
         <article class="card step-card">
           <div class="step-header">3. Service Binding</div>
           <p class="muted">Objectif : exposer l&rsquo;API OData V4.</p>
-          <div class="step-image image-placeholder">Capture ADT &agrave; ajouter</div>
-          <p class="muted">Service Definition + Binding O4 pour Fiori Elements.</p>
-          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : exposition stable.</div>
+          <img
+            class="step-image image-placeholder"
+            src="/profile/Service.png"
+            alt="Capture ADT du service binding"
+            loading="lazy"
+          />
+          <details class="code-toggle">
+            <summary>Voir explication</summary>
+            <div class="muted">Service Definition et Binding O4 pour l&rsquo;exposition OData V4.</div>
+          </details>
+          <div class="step-takeaway"></div>
         </article>
 
         <article id="draft" class="card step-card">
           <div class="step-header">4. Draft</div>
           <p class="muted">Objectif : permettre l&rsquo;&eacute;dition en brouillon.</p>
-          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
+          <img
+            class="step-image image-placeholder"
+            src="/profile/FioriDraft.png"
+            alt="Capture Fiori du draft"
+            loading="lazy"
+          />
           <details class="code-toggle">
             <summary>Voir snippet</summary>
-            <pre class="code-block">// TODO: snippet RAP (Draft configuration)</pre>
+            <pre class="code-block">managed implementation in class ZBP_I_COFFEE_SUB_TRL unique;
+strict ( 2 );
+with draft; // active draft handling
+define behavior for ZI_COFFEE_SUB_TRL
+persistent table zcs_sub_trl
+draft table zcs_sub_trl_d // draft persistence
+lock master
+total etag local_last_changed_at
+etag master local_last_changed_at
+authorization master ( global )
+&#123;
+  create;
+  update;
+  delete;
+  field ( numbering : managed, readonly )
+  subscription_uuid;
+  field ( readonly )
+  created_by,
+  created_at,
+  last_changed_by,
+  last_changed_at,
+  local_last_changed_at,
+  next_delivery_date,
+  status;
+  action ( features : instance ) pause;
+  action ( features : instance ) unpause;
+  action ( features : instance ) cancel;
+  validation validate_qty on save &#123; create; update; field qty_grams; &#125;
+  validation validate_start_date on save &#123; create; field start_date; &#125;
+  validation validate_status_transition on save &#123; create; update; field status; &#125;
+  validation validate_email on save &#123; create; update; field customer_email; &#125;
+  validation validate_frequency on save &#123; create; update; field frequency; &#125;
+  determination set_defaults on modify &#123; create; field status; &#125;
+  determination calc_next_delivery on modify &#123; create; update; field start_date; &#125;
+  draft determine action Prepare // draft prepare flow
+  &#123;
+    validation validate_qty; // draft validations
+    validation validate_start_date; // draft validations
+    validation validate_email; // draft validations
+    validation validate_frequency; // draft validations
+    validation validate_status_transition; // draft validations
+  &#125;
+  draft action Edit; // draft edit
+  draft action Activate optimized; // draft activation
+  draft action Discard; // draft discard
+  draft action Resume; // draft resume
+  side effects
+  &#123;
+    action pause affects field status;
+    action unpause affects field status;
+    action cancel affects field status;
+  &#125;
+&#125;</pre>
           </details>
           <details class="code-toggle">
             <summary>Voir explication</summary>
@@ -248,79 +334,377 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
               Activation du draft dans le BDEF et gestion du verrouillage pour un sc&eacute;nario multi-utilisateurs.
             </div>
           </details>
-          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : exp&eacute;rience utilisateur.</div>
+          <div class="step-takeaway"></div>
         </article>
 
         <article class="card step-card">
           <div class="step-header">5. Validations</div>
           <p class="muted">Objectif : contr&ocirc;les m&eacute;tier &agrave; la sauvegarde.</p>
-          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
+          <img
+            class="step-image image-placeholder"
+            src="/profile/Validation.png"
+            alt="Capture Fiori des validations"
+            loading="lazy"
+          />
           <details class="code-toggle">
             <summary>Voir snippet</summary>
-            <pre class="code-block">// TODO: snippet RAP (Validation quantity)</pre>
+            <pre class="code-block">METHOD validate_qty.
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      FIELDS ( qty_grams )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_sub).
+    LOOP AT lt_sub ASSIGNING FIELD-SYMBOL(&lt;s&gt;).
+      IF &lt;s&gt;-qty_grams IS INITIAL OR &lt;s&gt;-qty_grams &lt;= 0.
+        APPEND VALUE #( %tky = &lt;s&gt;-%tky ) TO failed-zi_coffee_sub_trl.
+        APPEND VALUE #(
+          %tky = &lt;s&gt;-%tky
+          %element-qty_grams = if_abap_behv=&gt;mk-on
+          %msg = new_message(
+                   id       = 'ZC_COFFEE_MSG'
+                   number   = '010'
+                   severity = if_abap_behv_message=&gt;severity-error
+                 )
+        ) TO reported-zi_coffee_sub_trl.
+      ENDIF.
+    ENDLOOP.
+
+  ENDMETHOD.
+  METHOD validate_start_date.
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      FIELDS ( start_date )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_sub).
+
+    LOOP AT lt_sub ASSIGNING FIELD-SYMBOL(&lt;s&gt;).
+      IF &lt;s&gt;-start_date IS INITIAL OR &lt;s&gt;-start_date &lt; sy-datum.
+
+        APPEND VALUE #( %tky = &lt;s&gt;-%tky ) TO failed-zi_coffee_sub_trl.
+
+        APPEND VALUE #(
+          %tky = &lt;s&gt;-%tky
+          %element-start_date = if_abap_behv=&gt;mk-on
+          %msg = new_message(
+                   id       = 'ZC_COFFEE_MSG'
+                   number   = '012'
+                   severity = if_abap_behv_message=&gt;severity-error
+                 )
+        ) TO reported-zi_coffee_sub_trl.
+
+      ENDIF.
+    ENDLOOP.
+
+  ENDMETHOD.
+  METHOD validate_status_transition.
+  ENDMETHOD.
+  METHOD validate_email.
+
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      FIELDS ( customer_email )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_sub).
+
+    LOOP AT lt_sub ASSIGNING FIELD-SYMBOL(&lt;s&gt;).
+      DATA lv_mail TYPE string.
+      lv_mail = &lt;s&gt;-customer_email.
+      CONDENSE lv_mail NO-GAPS.
+
+      IF lv_mail IS INITIAL
+   OR lv_mail NS '@'
+   OR lv_mail CP '@*'
+   OR lv_mail CP '*@'
+   OR lv_mail NS '.'.
+
+        APPEND VALUE #( %tky = &lt;s&gt;-%tky ) TO failed-zi_coffee_sub_trl.
+
+        APPEND VALUE #(
+          %tky = &lt;s&gt;-%tky
+          %element-customer_email = if_abap_behv=&gt;mk-on
+          %msg = new_message(
+                   id       = 'ZC_COFFEE_MSG'
+                   number   = '011'
+                   severity = if_abap_behv_message=&gt;severity-error
+                 )
+        ) TO reported-zi_coffee_sub_trl.
+
+      ENDIF.
+    ENDLOOP.
+  ENDMETHOD.
+  METHOD validate_frequency.
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      FIELDS ( frequency )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_sub).
+
+    LOOP AT lt_sub ASSIGNING FIELD-SYMBOL(&lt;s&gt;).
+      IF &lt;s&gt;-frequency IS INITIAL.
+
+        APPEND VALUE #( %tky = &lt;s&gt;-%tky ) TO failed-zi_coffee_sub_trl.
+
+        APPEND VALUE #(
+          %tky = &lt;s&gt;-%tky
+          %element-frequency = if_abap_behv=&gt;mk-on
+          %msg = new_message(
+                   id       = 'ZC_COFFEE_MSG'
+                   number   = '013'
+                   severity = if_abap_behv_message=&gt;severity-error
+                 )
+        ) TO reported-zi_coffee_sub_trl.
+
+      ENDIF.
+    ENDLOOP.
+  ENDMETHOD.</pre>
           </details>
           <details class="code-toggle">
             <summary>Voir explication</summary>
             <div class="muted">R&egrave;gles de coh&eacute;rence appliqu&eacute;es avant activation.</div>
           </details>
-          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : qualit&eacute; des donn&eacute;es.</div>
+          <div class="step-takeaway"></div>
         </article>
 
         <article class="card step-card">
           <div class="step-header">6. Determinations</div>
           <p class="muted">Objectif : automatiser les r&egrave;gles.</p>
-          <div class="step-image image-placeholder">Capture ADT &agrave; ajouter</div>
+          <img
+            class="step-image image-placeholder"
+            src="/profile/Determinations.png"
+            alt="Capture ADT des determinations"
+            loading="lazy"
+          />
           <details class="code-toggle">
             <summary>Voir snippet</summary>
-            <pre class="code-block">// TODO: snippet RAP (Determination next delivery)</pre>
+            <pre class="code-block">METHOD calc_next_delivery.
+  READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+    ENTITY zi_coffee_sub_trl
+    FIELDS ( start_date next_delivery_date status )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_sub).
+  DATA lt_upd TYPE TABLE FOR UPDATE zi_coffee_sub_trl.
+  LOOP AT lt_sub ASSIGNING FIELD-SYMBOL(&lt;s&gt;).
+    IF &lt;s&gt;-start_date IS INITIAL OR &lt;s&gt;-start_date = '00000000'.
+      CONTINUE.
+    ENDIF.
+    "si deja CANCELED, ne plus recalculer
+    IF &lt;s&gt;-status = 'CANCELED'.
+      CONTINUE.
+    ENDIF.
+    DATA lv_next TYPE d.
+    lv_next = &lt;s&gt;-start_date + 2.
+    "Decaler si week-end (6=sam / 7=dim)
+    DATA(lv_wd) = weekday( lv_next ).
+    IF lv_wd = 6.
+      lv_next = lv_next + 2.
+    ELSEIF lv_wd = 7.
+      lv_next = lv_next + 1.
+    ENDIF.
+    IF &lt;s&gt;-next_delivery_date &lt;&gt; lv_next.
+      APPEND VALUE #( %tky = &lt;s&gt;-%tky next_delivery_date = lv_next ) TO lt_upd.
+    ENDIF.
+  ENDLOOP.
+
+  IF lt_upd IS NOT INITIAL.
+    MODIFY ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      UPDATE FIELDS ( next_delivery_date )
+      WITH lt_upd.
+  ENDIF.
+
+ENDMETHOD.
+
+  METHOD weekday.
+    IF iv_date IS INITIAL OR iv_date = '00000000'.
+      rv_wd = 1.
+      RETURN.
+    ENDIF.
+    DATA lv TYPE string.
+    lv = |&amp;#123; iv_date &amp;#125;|. "YYYYMMDD
+    DATA y TYPE i.
+    DATA m TYPE i.
+    DATA d TYPE i.
+    y = lv(4).
+    m = lv+4(2).
+    d = lv+6(2).
+    IF m &lt; 1 OR m &gt; 12.
+      rv_wd = 1.
+      RETURN.
+    ENDIF.
+    DATA t TYPE STANDARD TABLE OF i WITH EMPTY KEY.
+    t = VALUE #( ( 0 ) ( 3 ) ( 2 ) ( 5 ) ( 0 ) ( 3 ) ( 5 ) ( 1 ) ( 4 ) ( 6 ) ( 2 ) ( 4 ) ).
+    IF m &lt; 3.
+      y = y - 1.
+    ENDIF.
+    DATA idx TYPE i.
+    idx = m. "1..12
+    DATA w TYPE i.
+    w = ( y + y / 4 - y / 100 + y / 400 + t[ idx ] + d ) MOD 7.
+    IF w = 0.
+      rv_wd = 7.
+    ELSE.
+      rv_wd = w.
+    ENDIF.
+  ENDMETHOD.</pre>
           </details>
           <details class="code-toggle">
             <summary>Voir explication</summary>
             <div class="muted">Calcul des champs d&eacute;riv&eacute;s et coh&eacute;rence des statuts.</div>
           </details>
-          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : coh&eacute;rence m&eacute;tier.</div>
+          <div class="step-takeaway"></div>
         </article>
 
         <article class="card step-card">
           <div class="step-header">7. Actions</div>
           <p class="muted">Objectif : d&eacute;clencher des actions cibl&eacute;es.</p>
-          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
+          <img
+            class="step-image image-placeholder"
+            src="/profile/Actions.png"
+            alt="Capture Fiori des actions"
+            loading="lazy"
+          />
           <details class="code-toggle">
             <summary>Voir snippet</summary>
-            <pre class="code-block">// TODO: snippet RAP (Action activation)</pre>
+            <pre class="code-block">METHOD pause.
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      FIELDS ( status )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_sub).
+    DATA lt_upd TYPE TABLE FOR UPDATE zi_coffee_sub_trl.
+    LOOP AT lt_sub ASSIGNING FIELD-SYMBOL(&lt;s&gt;).
+      IF &lt;s&gt;-status = 'ACTIVE'.
+        APPEND VALUE #( %tky = &lt;s&gt;-%tky status = 'PAUSED' ) TO lt_upd.
+      ELSE.
+        APPEND VALUE #(
+          %tky = &lt;s&gt;-%tky
+          %msg = new_message(
+                   id       = 'ZC'
+                   number   = '001'
+                   severity = if_abap_behv_message=&gt;severity-error
+                   v1       = |Pause allowed only for ACTIVE|
+                 )
+        ) TO reported-zi_coffee_sub_trl.
+      ENDIF.
+    ENDLOOP.
+    IF lt_upd IS NOT INITIAL.
+      MODIFY ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+        ENTITY zi_coffee_sub_trl
+        UPDATE FIELDS ( status )
+        WITH lt_upd.
+    ENDIF.
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      ALL FIELDS WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_read).
+  ENDMETHOD.
+
+  METHOD unpause.
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      FIELDS ( status )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_sub).
+    DATA lt_upd TYPE TABLE FOR UPDATE zi_coffee_sub_trl.
+    LOOP AT lt_sub ASSIGNING FIELD-SYMBOL(&lt;s&gt;).
+      IF &lt;s&gt;-status = 'PAUSED'.
+        APPEND VALUE #( %tky = &lt;s&gt;-%tky status = 'ACTIVE' ) TO lt_upd.
+      ELSE.
+        APPEND VALUE #(
+          %tky = &lt;s&gt;-%tky
+          %msg = new_message(
+                   id       = 'ZC'
+                   number   = '002'
+                   severity = if_abap_behv_message=&gt;severity-error
+                   v1       = |Unpause allowed only for PAUSED|
+                 )
+        ) TO reported-zi_coffee_sub_trl.
+      ENDIF.
+    ENDLOOP.
+    IF lt_upd IS NOT INITIAL.
+      MODIFY ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+        ENTITY zi_coffee_sub_trl
+        UPDATE FIELDS ( status )
+        WITH lt_upd.
+    ENDIF.
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      ALL FIELDS WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_read).
+  ENDMETHOD.
+
+  METHOD cancel.
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      FIELDS ( status )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_sub).
+    DATA lt_upd TYPE TABLE FOR UPDATE zi_coffee_sub_trl.
+    LOOP AT lt_sub ASSIGNING FIELD-SYMBOL(&lt;s&gt;).
+      IF &lt;s&gt;-status &lt;&gt; 'CANCELED'.
+        APPEND VALUE #( %tky = &lt;s&gt;-%tky status = 'CANCELED' ) TO lt_upd.
+      ELSE.
+        APPEND VALUE #(
+          %tky = &lt;s&gt;-%tky
+          %msg = new_message(
+                   id       = 'ZC'
+                   number   = '003'
+                   severity = if_abap_behv_message=&gt;severity-information
+                   v1       = |Already canceled|
+                 )
+        ) TO reported-zi_coffee_sub_trl.
+      ENDIF.
+    ENDLOOP.
+    IF lt_upd IS NOT INITIAL.
+      MODIFY ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+        ENTITY zi_coffee_sub_trl
+        UPDATE FIELDS ( status )
+        WITH lt_upd.
+    ENDIF.
+    READ ENTITIES OF zi_coffee_sub_trl IN LOCAL MODE
+      ENTITY zi_coffee_sub_trl
+      ALL FIELDS WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_read).
+  ENDMETHOD.</pre>
           </details>
           <details class="code-toggle">
             <summary>Voir explication</summary>
             <div class="muted">Actions custom pour activer ou mettre &agrave; jour l&rsquo;abonnement.</div>
           </details>
-          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : agilit&eacute; fonctionnelle.</div>
+          <div class="step-takeaway"></div>
         </article>
 
         <article id="vh" class="card step-card">
           <div class="step-header">8. Value Helps</div>
           <p class="muted">Objectif : simplifier la saisie.</p>
-          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
-          <details class="code-toggle">
-            <summary>Voir snippet</summary>
-            <pre class="code-block">// TODO: snippet RAP (Value Help)</pre>
-          </details>
+          <img
+            class="step-image image-placeholder"
+            src="/profile/VH.png"
+            alt="Capture Fiori des value helps"
+            loading="lazy"
+          />
           <details class="code-toggle">
             <summary>Voir explication</summary>
             <div class="muted">Vues ZC_*_VH pour fiabiliser les entr&eacute;es.</div>
           </details>
-          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : ergonomie Fiori.</div>
+          <div class="step-takeaway"></div>
         </article>
 
         <article class="card step-card">
           <div class="step-header">9. Error handling</div>
           <p class="muted">Objectif : g&eacute;rer les erreurs proprement.</p>
-          <div class="step-image image-placeholder">Capture Fiori &agrave; ajouter</div>
+          <img
+            class="step-image image-placeholder"
+            src="/profile/Error.png"
+            alt="Capture Fiori des erreurs"
+            loading="lazy"
+          />
           <details class="code-toggle">
-            <summary>Voir snippet</summary>
+            <summary>Voir explication</summary>
             <pre class="code-block">// TODO: snippet RAP (Error handling)</pre>
           </details>
           <p class="muted">Messages clairs, erreurs bloquantes et reprise via draft.</p>
-          <div class="step-takeaway">Ce que cette &eacute;tape d&eacute;montre : robustesse de l&rsquo;app.</div>
+          <div class="step-takeaway"></div>
         </article>
       </section>
 
@@ -433,7 +817,37 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           </span>
           <h2>Aper&ccedil;u de l&rsquo;application</h2>
         </div>
-        <div class="image-placeholder">Capture Fiori &agrave; ajouter</div>
+        <div class="carousel" data-carousel>
+          <button class="carousel__nav carousel__nav--prev" type="button" aria-label="Image pr&eacute;c&eacute;dente">
+            &#x2039;
+          </button>
+          <div class="carousel__track">
+            <div class="carousel__slide is-active">
+              <img
+                src="/profile/App1.png"
+                alt="Aper&ccedil;u de l&rsquo;application Fiori"
+                loading="lazy"
+              />
+            </div>
+            <div class="carousel__slide">
+              <img
+                src="/profile/App2.png"
+                alt="Aper&ccedil;u de l&rsquo;application Fiori"
+                loading="lazy"
+              />
+            </div>
+            <div class="carousel__slide">
+              <img
+                src="/profile/App3.png"
+                alt="Aper&ccedil;u de l&rsquo;application Fiori"
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <button class="carousel__nav carousel__nav--next" type="button" aria-label="Image suivante">
+            &#x203A;
+          </button>
+        </div>
       </section>
 
       <section id="debug" class="section">
@@ -498,3 +912,36 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     </div>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  const initCarousel = () => {
+    const carousels = document.querySelectorAll("[data-carousel]");
+    carousels.forEach((carousel) => {
+      const slides = Array.from(carousel.querySelectorAll(".carousel__slide"));
+      const prev = carousel.querySelector(".carousel__nav--prev");
+      const next = carousel.querySelector(".carousel__nav--next");
+      let index = 0;
+
+      const show = (newIndex) => {
+        slides[index].classList.remove("is-active");
+        index = (newIndex + slides.length) % slides.length;
+        slides[index].classList.add("is-active");
+      };
+
+      prev.addEventListener("click", (event) => {
+        event.preventDefault();
+        show(index - 1);
+      });
+      next.addEventListener("click", (event) => {
+        event.preventDefault();
+        show(index + 1);
+      });
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCarousel);
+  } else {
+    initCarousel();
+  }
+</script>
