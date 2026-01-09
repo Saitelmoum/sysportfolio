@@ -152,10 +152,34 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           alt="Sch&eacute;ma d&rsquo;architecture Coffee Subscription"
           loading="lazy"
         />
-        <p class="muted">
-          Tables &rarr; CDS Interface &rarr; CDS Projection &rarr; BDEF &rarr; Service &rarr; OData V4 &rarr;
-          Fiori Elements.
-        </p>
+        <details class="code-toggle">
+          <summary>Voir explication</summary>
+          <div class="muted">
+            L&rsquo;architecture de l&rsquo;application repose sur le mod&egrave;le RAP Managed, qui permet
+            de s&eacute;parer clairement les responsabilit&eacute;s entre les donn&eacute;es, le
+            comportement m&eacute;tier et l&rsquo;interface utilisateur.
+          </div>
+          <div class="muted">
+            Les tables de persistance stockent les donn&eacute;es actives et les donn&eacute;es draft.
+            Les CDS Interface Views (ZI) d&eacute;finissent le mod&egrave;le s&eacute;mantique et les
+            relations m&eacute;tier. Les CDS Projection Views (ZC) exposent uniquement les champs
+            n&eacute;cessaires &agrave; l&rsquo;UI et portent les annotations Fiori.
+          </div>
+          <div class="muted">
+            Le Behavior Definition (BDEF) centralise les r&egrave;gles transactionnelles : cr&eacute;ation,
+            modification, suppression, validations, d&eacute;terminations et actions. Le Service
+            Definition et le Service Binding OData V4 exposent ensuite ces objets &agrave; l&rsquo;interface.
+          </div>
+          <div class="muted">
+            Enfin, l&rsquo;UI Fiori Elements est g&eacute;n&eacute;r&eacute;e automatiquement &agrave; partir
+            des m&eacute;tadonn&eacute;es, garantissant une application coh&eacute;rente, maintenable et
+            align&eacute;e avec les standards SAP.
+          </div>
+          <div class="muted">
+            Cette architecture est extensible et proche d&rsquo;un contexte projet r&eacute;el, tout en
+            facilitant les &eacute;volutions fonctionnelles et techniques.
+          </div>
+        </details>
       </section>
 
       <section id="artefacts" class="section">
@@ -226,7 +250,62 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           />
           <details class="code-toggle">
             <summary>Voir explication</summary>
-            <div class="muted">Tables ZCS_SUB_TRL et ZCS_SUB_TRL_D pour la persistence et le draft.</div>
+            <div class="muted">
+              🗄️ R&ocirc;le des tables dans l&rsquo;architecture RAP
+            </div>
+            <div class="muted">
+              Dans une architecture SAP RAP, les tables jouent le r&ocirc;le de socle de persistance,
+              mais leur utilisation est plus structur&eacute;e que dans un d&eacute;veloppement ABAP
+              classique.
+            </div>
+            <div class="muted">
+              Une table de persistance stocke les donn&eacute;es actives de l&rsquo;objet m&eacute;tier
+              (abonnements valid&eacute;s). Une table draft associ&eacute;e permet de g&eacute;rer les
+              modifications temporaires tant que l&rsquo;utilisateur n&rsquo;a pas encore valid&eacute;
+              l&rsquo;enregistrement.
+            </div>
+            <div class="muted">
+              Cette s&eacute;paration est essentielle pour offrir une exp&eacute;rience utilisateur
+              guid&eacute;e et s&eacute;curis&eacute;e, sans impacter les donn&eacute;es actives tant que
+              les r&egrave;gles m&eacute;tier ne sont pas respect&eacute;es.
+            </div>
+            <div class="muted">
+              🔁 Comparaison avec l&rsquo;ABAP classique
+            </div>
+            <div class="muted">
+              En ABAP classique, les donn&eacute;es sont g&eacute;n&eacute;ralement &eacute;crites
+              directement en base lors du SAVE, et la gestion des &eacute;tats interm&eacute;diaires
+              repose sur :
+            </div>
+            <ul class="list">
+              <li>des tables Z temporaires,</li>
+              <li>des flags de statut,</li>
+              <li>ou une logique applicative complexe.</li>
+            </ul>
+            <div class="muted">
+              En RAP, cette gestion est nativement prise en charge par le framework gr&acirc;ce au
+              m&eacute;canisme draft, ce qui :
+            </div>
+            <ul class="list">
+              <li>r&eacute;duit la complexit&eacute; du code,</li>
+              <li>am&eacute;liore la robustesse transactionnelle,</li>
+              <li>et standardise le comportement de l&rsquo;application.</li>
+            </ul>
+            <div class="muted">
+              🎯 Position dans l&rsquo;architecture RAP
+            </div>
+            <div class="muted">
+              Les tables constituent le point de d&eacute;part du flux RAP :
+            </div>
+            <ul class="list">
+              <li>elles alimentent les CDS Interface Views (ZI),</li>
+              <li>qui sont ensuite projet&eacute;es vers l&rsquo;UI,</li>
+              <li>et manipul&eacute;es via le Behavior Definition.</li>
+            </ul>
+            <div class="muted">
+              Ce mod&egrave;le garantit une s&eacute;paration claire entre donn&eacute;es, logique
+              m&eacute;tier et interface, align&eacute;e avec les bonnes pratiques SAP modernes.
+            </div>
           </details>
           <div class="step-takeaway"></div>
         </article>
@@ -242,7 +321,95 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           />
           <details class="code-toggle">
             <summary>Voir explication</summary>
-            <div class="muted">Mod&egrave;le m&eacute;tier en CDS Interface et exposition UI en CDS Projection.</div>
+            <div class="muted">📐 CDS Interface &amp; CDS Projection dans l&rsquo;architecture RAP</div>
+            <div class="muted">🔹 CDS Interface View (ZI_*)</div>
+            <div class="muted">
+              Les CDS Interface Views repr&eacute;sentent le mod&egrave;le s&eacute;mantique central de l&rsquo;objet
+              m&eacute;tier dans une architecture RAP.
+            </div>
+            <div class="muted">
+              Elles sont directement construites au-dessus des tables de persistance et de draft,
+              et d&eacute;finissent :
+            </div>
+            <ul class="list">
+              <li>la structure m&eacute;tier,</li>
+              <li>les relations (associations),</li>
+              <li>les cl&eacute;s,</li>
+              <li>et les aspects s&eacute;mantiques (types, unit&eacute;s, statuts).</li>
+            </ul>
+            <div class="muted">
+              Les vues ZI constituent une base stable et ind&eacute;pendante de l&rsquo;UI, pens&eacute;e pour
+              &ecirc;tre r&eacute;utilisable et extensible dans le temps.
+            </div>
+            <div class="muted">R&ocirc;le cl&eacute;</div>
+            <div class="muted">
+              La CDS Interface est la source de v&eacute;rit&eacute; m&eacute;tier : elle d&eacute;crit ce
+              qu&rsquo;est l&rsquo;objet, sans se soucier de comment il est affich&eacute;.
+            </div>
+            <div class="muted">🔹 CDS Projection View (ZC_*)</div>
+            <div class="muted">
+              Les CDS Projection Views exposent une vue contr&ocirc;l&eacute;e et orient&eacute;e UI de
+              l&rsquo;objet m&eacute;tier.
+            </div>
+            <div class="muted">Elles permettent de :</div>
+            <ul class="list">
+              <li>s&eacute;lectionner les champs r&eacute;ellement n&eacute;cessaires &agrave; l&rsquo;application,</li>
+              <li>masquer la complexit&eacute; du mod&egrave;le interne,</li>
+              <li>et adapter l&rsquo;exposition selon le contexte fonctionnel.</li>
+            </ul>
+            <div class="muted">Annotations UI &amp; m&eacute;tadonn&eacute;es</div>
+            <div class="muted">
+              Les annotations UI (lineItem, identification, selectionFields, etc.) sont port&eacute;es
+              au niveau des projections afin de :
+            </div>
+            <ul class="list">
+              <li>d&eacute;finir le comportement de l&rsquo;UI Fiori,</li>
+              <li>structurer les listes et les pages objet,</li>
+              <li>guider l&rsquo;utilisateur dans la saisie et la navigation.</li>
+            </ul>
+            <div class="muted">🧩 Metadata Extensions</div>
+            <div class="muted">
+              Les Metadata Extensions permettent de s&eacute;parer le mod&egrave;le de donn&eacute;es des
+              annotations UI. Cette approche :
+            </div>
+            <ul class="list">
+              <li>am&eacute;liore la lisibilit&eacute; du code,</li>
+              <li>facilite la maintenance,</li>
+              <li>permet des adaptations UI sans toucher au c&oelig;ur du mod&egrave;le CDS.</li>
+            </ul>
+            <div class="muted">
+              C&rsquo;est une bonne pratique essentielle dans les projets RAP structur&eacute;s.
+            <div class="muted">&#128256; Value Helps (VH)</div>
+            <div class="muted">Les Value Helps sont g&eacute;n&eacute;ralement impl&eacute;ment&eacute;es via :</div>
+            <ul class="list">
+              <li>des CDS d&eacute;di&eacute;es (Projection ou VH),</li>
+              <li>associ&eacute;es aux champs concern&eacute;s dans la CDS Projection.</li>
+            </ul>
+            <div class="muted">Elles permettent :</div>
+            <ul class="list">
+              <li>de s&eacute;curiser la saisie utilisateur,</li>
+              <li>de proposer des valeurs coh&eacute;rentes,</li>
+              <li>et de standardiser l&rsquo;exp&eacute;rience Fiori.</li>
+            </ul>
+            <div class="muted">
+              Dans RAP, les VH sont int&eacute;gr&eacute;es nativement au mod&egrave;le, sans logique UI
+              sp&eacute;cifique.
+            </div>
+            <div class="muted">&#127919; Position dans l&rsquo;architecture RAP</div>
+            <div class="muted">
+              Ensemble, les CDS Interface et Projection forment le c&oelig;ur du mod&egrave;le RAP :
+            </div>
+            <ul class="list">
+              <li>ZI : d&eacute;finition m&eacute;tier stable et r&eacute;utilisable</li>
+              <li>ZC : exposition ma&icirc;tris&eacute;e et orient&eacute;e UI</li>
+              <li>Annotations &amp; Extensions : pilotage du comportement Fiori</li>
+            </ul>
+            <div class="muted">
+              Cette s&eacute;paration permet une architecture propre, &eacute;volutive et align&eacute;e
+              avec les standards SAP, tout en facilitant les extensions futures.
+            </div>
+
+            </div>
           </details>
           <div class="step-takeaway"></div>
         </article>
@@ -258,7 +425,76 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           />
           <details class="code-toggle">
             <summary>Voir explication</summary>
-            <div class="muted">Service Definition et Binding O4 pour l&rsquo;exposition OData V4.</div>
+            <div class="muted">🔗 Service Definition &amp; Service Binding dans RAP</div>
+            <div class="muted">🔹 Service Definition</div>
+            <div class="muted">
+              La Service Definition d&eacute;finit le contrat d&rsquo;exposition de l&rsquo;objet m&eacute;tier RAP.
+            </div>
+            <div class="muted">
+              Elle permet de s&eacute;lectionner pr&eacute;cis&eacute;ment quelles entit&eacute;s
+              (projections CDS) sont expos&eacute;es &agrave; l&rsquo;ext&eacute;rieur, sans impacter le
+              mod&egrave;le interne.
+            </div>
+            <div class="muted">
+              Son r&ocirc;le est comparable &agrave; une API contractuelle : elle garantit une interface
+              stable entre le backend et les consommateurs (UI ou services externes).
+            </div>
+            <div class="muted">Points cl&eacute;s</div>
+            <ul class="list">
+              <li>Exposition contr&ocirc;l&eacute;e des entit&eacute;s RAP</li>
+              <li>S&eacute;paration claire entre mod&egrave;le interne et surface expos&eacute;e</li>
+              <li>Pr&eacute;paration &agrave; une consommation UI ou int&eacute;gration future</li>
+            </ul>
+            <div class="muted">🔹 Service Binding (OData V4)</div>
+            <div class="muted">
+              Le Service Binding est l&rsquo;&eacute;tape finale qui rend l&rsquo;objet RAP consommable.
+            </div>
+            <div class="muted">
+              Il lie la Service Definition &agrave; un protocole concret, g&eacute;n&eacute;ralement
+              OData V4, et g&eacute;n&egrave;re :
+            </div>
+            <ul class="list">
+              <li>le service technique,</li>
+              <li>le $metadata,</li>
+              <li>les endpoints n&eacute;cessaires &agrave; l&rsquo;UI Fiori Elements.</li>
+            </ul>
+            <div class="muted">
+              C&rsquo;est &agrave; ce niveau que le service est activ&eacute;, test&eacute; et publi&eacute;.
+            </div>
+            <div class="muted">OData V4 &amp; Fiori Elements</div>
+            <div class="muted">L&rsquo;utilisation d&rsquo;OData V4 permet :</div>
+            <ul class="list">
+              <li>une meilleure int&eacute;gration avec RAP,</li>
+              <li>une gestion native du draft,</li>
+              <li>et une g&eacute;n&eacute;ration UI Fiori Elements coh&eacute;rente et standardis&eacute;e.</li>
+            </ul>
+            <div class="muted">🔄 Comparaison avec l&rsquo;ABAP classique</div>
+            <div class="muted">
+              En ABAP classique, l&rsquo;exposition des donn&eacute;es repose souvent sur :
+            </div>
+            <ul class="list">
+              <li>des services OData &eacute;crits manuellement (SEGW),</li>
+              <li>une logique de mapping complexe,</li>
+              <li>et une maintenance plus lourde.</li>
+            </ul>
+            <div class="muted">
+              En RAP, la Service Definition et le Binding :
+            </div>
+            <ul class="list">
+              <li>r&eacute;duisent drastiquement le code sp&eacute;cifique,</li>
+              <li>standardisent l&rsquo;exposition,</li>
+              <li>et alignent l&rsquo;application avec les architectures SAP modernes.</li>
+            </ul>
+            <div class="muted">🎯 Position dans l&rsquo;architecture RAP</div>
+            <div class="muted">
+              La Service Definition et le Service Binding constituent le pont final entre le mod&egrave;le
+              RAP et l&rsquo;interface utilisateur :
+            </div>
+            <div class="muted">CDS Projection → Service Definition → Service Binding → UI Fiori</div>
+            <div class="muted">
+              Cette approche garantit une exposition ma&icirc;tris&eacute;e, testable et &eacute;volutive,
+              adapt&eacute;e &agrave; des contextes projet r&eacute;els.
+            </div>
           </details>
           <div class="step-takeaway"></div>
         </article>
@@ -330,8 +566,93 @@ authorization master ( global )
           </details>
           <details class="code-toggle">
             <summary>Voir explication</summary>
+            <div class="muted">📝 Le mode Draft dans l&rsquo;architecture RAP</div>
+            <div class="muted">🔹 R&ocirc;le du Draft</div>
             <div class="muted">
-              Activation du draft dans le BDEF et gestion du verrouillage pour un sc&eacute;nario multi-utilisateurs.
+              Le mode Draft permet de g&eacute;rer des modifications temporaires d&rsquo;un objet m&eacute;tier
+              sans impacter imm&eacute;diatement les donn&eacute;es actives.
+            </div>
+            <div class="muted">
+              Lorsqu&rsquo;un utilisateur cr&eacute;e ou modifie un objet, les donn&eacute;es sont d&rsquo;abord
+              stock&eacute;es dans une instance draft. Elles ne deviennent actives qu&rsquo;apr&egrave;s une
+              validation explicite (Save/Activate).
+            </div>
+            <div class="muted">Ce m&eacute;canisme est essentiel pour :</div>
+            <ul class="list">
+              <li>s&eacute;curiser la saisie utilisateur,</li>
+              <li>appliquer les r&egrave;gles m&eacute;tier avant activation,</li>
+              <li>offrir une exp&eacute;rience proche des applications SAP standards.</li>
+            </ul>
+            <div class="muted">📐 Place du Draft dans l&rsquo;architecture RAP</div>
+            <div class="muted">Le Draft s&rsquo;int&egrave;gre naturellement dans le flux RAP :</div>
+            <ul class="list">
+              <li>Tables de persistance : donn&eacute;es actives</li>
+              <li>Tables draft : donn&eacute;es temporaires</li>
+              <li>CDS Interface &amp; Projection : exposent les deux &eacute;tats</li>
+              <li>Behavior Definition : pilote le cycle de vie (draft → active)</li>
+              <li>UI Fiori Elements : g&egrave;re automatiquement l&rsquo;&eacute;tat brouillon</li>
+            </ul>
+            <div class="muted">
+              Le framework RAP se charge de la synchronisation entre les &eacute;tats draft et actif.
+            </div>
+            <div class="muted">🗂️ O&ugrave; le Draft est d&eacute;fini (artefacts cl&eacute;s)</div>
+            <div class="muted">1️⃣ Tables</div>
+            <div class="muted">
+              Une table draft d&eacute;di&eacute;e est associ&eacute;e &agrave; la table de persistance.
+              Elle est g&eacute;n&eacute;r&eacute;e ou d&eacute;finie pour stocker les modifications en cours.
+            </div>
+            <div class="muted">2️⃣ Behavior Definition (BDEF)</div>
+            <div class="muted">
+              Le Draft est activ&eacute; directement dans la Behavior Definition :
+            </div>
+            <pre class="code-block">define behavior for ZI_COFFEE_SUB_TRL
+  persistent table zcs_sub_trl
+  draft table zcs_sub_trl_d
+  with draft;</pre>
+            <div class="muted">C&rsquo;est le point central de configuration du draft.</div>
+            <div class="muted">3️⃣ Service Binding OData V4</div>
+            <div class="muted">
+              Le support du Draft est nativement pris en charge par OData V4 et Fiori Elements, sans
+              code UI sp&eacute;cifique.
+            </div>
+            <div class="muted">🔄 Cycle de vie d&rsquo;un Draft (exemple concret)</div>
+            <ul class="list">
+              <li>L&rsquo;utilisateur clique sur Cr&eacute;er un abonnement</li>
+              <li>Une instance draft est cr&eacute;&eacute;e</li>
+              <li>L&rsquo;utilisateur renseigne les champs (Value Helps, d&eacute;terminations)</li>
+              <li>Les validations sont ex&eacute;cut&eacute;es</li>
+              <li>Si erreur → le draft est conserv&eacute;</li>
+              <li>Si OK → Activation → donn&eacute;es copi&eacute;es vers la table active, draft supprim&eacute;</li>
+            </ul>
+            <div class="muted">⚠️ Points d&rsquo;attention importants</div>
+            <div class="muted">Lors de l&rsquo;utilisation du Draft, il faut &ecirc;tre attentif &agrave; :</div>
+            <ul class="list">
+              <li>la coh&eacute;rence des validations (elles s&rsquo;ex&eacute;cutent aussi en draft),</li>
+              <li>les d&eacute;terminations (elles doivent g&eacute;rer les deux &eacute;tats),</li>
+              <li>la gestion des messages d&rsquo;erreur (bloquants vs informatifs),</li>
+              <li>la pr&eacute;sence correcte de la table draft et des champs techniques.</li>
+            </ul>
+            <div class="muted">Une mauvaise configuration du draft peut entra&icirc;ner :</div>
+            <ul class="list">
+              <li>des erreurs de $metadata,</li>
+              <li>des comportements incoh&eacute;rents en UI,</li>
+              <li>ou des probl&egrave;mes &agrave; l&rsquo;activation.</li>
+            </ul>
+            <div class="muted">🧩 Quelques syntaxes RAP courantes li&eacute;es au Draft</div>
+            <div class="muted">Activation du Draft</div>
+            <pre class="code-block">with draft;</pre>
+            <div class="muted">Validations ex&eacute;cut&eacute;es en mode Draft</div>
+            <pre class="code-block">validation check_quantity on save &#123; field quantity; &#125;</pre>
+            <div class="muted">D&eacute;termination en cr&eacute;ation Draft</div>
+            <pre class="code-block">determination set_defaults on modify &#123; create; &#125;</pre>
+            <div class="muted">
+              Ces r&egrave;gles s&rsquo;appliquent avant l&rsquo;activation, garantissant la qualit&eacute; des donn&eacute;es.
+            </div>
+            <div class="muted">🎯 Pourquoi le Draft est un point cl&eacute; du projet</div>
+            <div class="muted">
+              Le mode Draft permet de concevoir des applications : plus robustes, plus proches des
+              standards SAP, et adapt&eacute;es &agrave; des cas m&eacute;tier complexes. Sa bonne
+              ma&icirc;trise est un indicateur fort de maturit&eacute; RAP dans un contexte projet r&eacute;el.
             </div>
           </details>
           <div class="step-takeaway"></div>
@@ -460,7 +781,109 @@ authorization master ( global )
           </details>
           <details class="code-toggle">
             <summary>Voir explication</summary>
-            <div class="muted">R&egrave;gles de coh&eacute;rence appliqu&eacute;es avant activation.</div>
+            <div class="muted">✅ Les validations dans SAP RAP</div>
+            <div class="muted">🔹 R&ocirc;le des validations</div>
+            <div class="muted">
+              Les validations permettent de contr&ocirc;ler la coh&eacute;rence des donn&eacute;es avant
+              qu&rsquo;un objet m&eacute;tier ne soit enregistr&eacute; ou activ&eacute;.
+            </div>
+            <div class="muted">
+              Elles sont utilis&eacute;es pour bloquer une action lorsque une r&egrave;gle m&eacute;tier
+              n&rsquo;est pas respect&eacute;e (champ obligatoire, valeur incoh&eacute;rente, r&egrave;gle
+              fonctionnelle viol&eacute;e).
+            </div>
+            <div class="muted">
+              En cas d&rsquo;erreur, l&rsquo;utilisateur re&ccedil;oit un message bloquant, et l&rsquo;instance
+              reste en mode draft.
+            </div>
+            <div class="muted">📐 Place des validations dans l&rsquo;architecture RAP</div>
+            <div class="muted">
+              Les validations font partie int&eacute;grante du Behavior Definition (BDEF) et sont
+              ex&eacute;cut&eacute;es :
+            </div>
+            <ul class="list">
+              <li>lors de la cr&eacute;ation,</li>
+              <li>lors de la modification,</li>
+              <li>et surtout avant l&rsquo;activation du draft.</li>
+            </ul>
+            <div class="muted">
+              Elles s&rsquo;ins&egrave;rent donc juste avant le passage de l&rsquo;&eacute;tat draft &agrave;
+              l&rsquo;&eacute;tat actif, garantissant que seules des donn&eacute;es valides soient persist&eacute;es.
+            </div>
+            <div class="muted">🗂️ O&ugrave; d&eacute;finir les validations</div>
+            <div class="muted">1️⃣ Behavior Definition (BDEF)</div>
+            <div class="muted">Les validations sont d&eacute;clar&eacute;es dans la Behavior Definition :</div>
+            <pre class="code-block">validation check_quantity on save &#123; field quantity; &#125;</pre>
+            <div class="muted">
+              on save : la validation est ex&eacute;cut&eacute;e &agrave; l&rsquo;enregistrement / activation
+            </div>
+            <div class="muted">field quantity : champ concern&eacute; par la r&egrave;gle</div>
+            <div class="muted">2️⃣ Behavior Implementation (classe ZBP_*)</div>
+            <div class="muted">La logique m&eacute;tier de la validation est impl&eacute;ment&eacute;e dans la classe de comportement :</div>
+            <pre class="code-block">METHOD check_quantity.
+  IF quantity &lt;= 0.
+    APPEND VALUE #( %msg = new_message(
+      id       = 'ZMSG'
+      number   = '001'
+      severity = if_abap_behv_message=&gt;severity-error
+      v1       = 'Quantity must be greater than zero'
+    ) ) TO reported.
+  ENDIF.
+ENDMETHOD.</pre>
+            <div class="muted">🔄 Exemple concret (cas Coffee Subscription)</div>
+            <div class="muted">Lors de la cr&eacute;ation d&rsquo;un abonnement :</div>
+            <ul class="list">
+              <li>la quantit&eacute; doit &ecirc;tre strictement positive,</li>
+              <li>la fr&eacute;quence ne doit pas &ecirc;tre initiale,</li>
+              <li>le type de caf&eacute; doit &ecirc;tre renseign&eacute;.</li>
+            </ul>
+            <div class="muted">Si une de ces r&egrave;gles n&rsquo;est pas respect&eacute;e :</div>
+            <ul class="list">
+              <li>l&rsquo;enregistrement est bloqu&eacute;,</li>
+              <li>un message d&rsquo;erreur est affich&eacute; dans l&rsquo;UI,</li>
+              <li>le draft est conserv&eacute; pour correction.</li>
+            </ul>
+            <div class="muted">⚠️ Points d&rsquo;attention importants</div>
+            <div class="muted">Lors de l&rsquo;impl&eacute;mentation des validations, il faut faire attention &agrave; :</div>
+            <ul class="list">
+              <li>utiliser des messages bloquants (severity-error) uniquement lorsque n&eacute;cessaire,</li>
+              <li>cibler pr&eacute;cis&eacute;ment les champs concern&eacute;s,</li>
+              <li>&eacute;viter les validations trop lourdes (performance),</li>
+              <li>ne pas dupliquer la logique entre validation et d&eacute;termination.</li>
+            </ul>
+            <div class="muted">Une validation mal con&ccedil;ue peut :</div>
+            <ul class="list">
+              <li>bloquer inutilement l&rsquo;utilisateur,</li>
+              <li>d&eacute;grader l&rsquo;exp&eacute;rience Fiori,</li>
+              <li>ou compliquer l&rsquo;&eacute;volution du code.</li>
+            </ul>
+            <div class="muted">🔁 Comparaison avec l&rsquo;ABAP classique</div>
+            <div class="muted">En ABAP classique, les validations sont souvent impl&eacute;ment&eacute;es :</div>
+            <ul class="list">
+              <li>dans des CHECK dispers&eacute;s,</li>
+              <li>ou dans la logique PAI des &eacute;crans.</li>
+            </ul>
+            <div class="muted">En RAP, les validations sont :</div>
+            <ul class="list">
+              <li>centralis&eacute;es,</li>
+              <li>d&eacute;claratives,</li>
+              <li>et ex&eacute;cut&eacute;es automatiquement par le framework.</li>
+            </ul>
+            <div class="muted">
+              Cela am&eacute;liore la maintenabilit&eacute;, la lisibilit&eacute; et la robustesse du code.
+            </div>
+            <div class="muted">🎯 Pourquoi les validations sont essentielles</div>
+            <div class="muted">
+              Les validations garantissent que :
+            </div>
+            <ul class="list">
+              <li>seules des donn&eacute;es coh&eacute;rentes atteignent la base,</li>
+              <li>les r&egrave;gles m&eacute;tier sont appliqu&eacute;es de mani&egrave;re uniforme,</li>
+              <li>l&rsquo;application se comporte comme un standard SAP.</li>
+            </ul>
+            <div class="muted">
+              Leur bonne utilisation est un marqueur fort de qualit&eacute; et de maturit&eacute; RAP.
+            </div>
           </details>
           <div class="step-takeaway"></div>
         </article>
@@ -549,7 +972,115 @@ ENDMETHOD.
           </details>
           <details class="code-toggle">
             <summary>Voir explication</summary>
-            <div class="muted">Calcul des champs d&eacute;riv&eacute;s et coh&eacute;rence des statuts.</div>
+            <div class="muted">Les d&eacute;terminations dans SAP RAP</div>
+            <div class="muted">R&ocirc;le des d&eacute;terminations</div>
+            <div class="muted">
+              Les d&eacute;terminations permettent d&rsquo;enrichir ou d&rsquo;ajuster automatiquement les donn&eacute;es
+              d&rsquo;un objet m&eacute;tier, sans bloquer l&rsquo;utilisateur.
+            </div>
+            <div class="muted">
+              Contrairement aux validations, une d&eacute;termination :
+            </div>
+            <ul class="list">
+              <li>ne bloque pas l&rsquo;enregistrement,</li>
+              <li>est d&eacute;clench&eacute;e automatiquement par le framework,</li>
+              <li>sert &agrave; calculer, compl&eacute;ter ou synchroniser des champs.</li>
+            </ul>
+            <div class="muted">
+              Elles sont id&eacute;ales pour appliquer des r&egrave;gles m&eacute;tier implicites, qui ne
+              n&eacute;cessitent pas d&rsquo;intervention utilisateur.
+            </div>
+            <div class="muted">Place des d&eacute;terminations dans l&rsquo;architecture RAP</div>
+            <div class="muted">
+              Les d&eacute;terminations font partie du Behavior Definition (BDEF) et sont ex&eacute;cut&eacute;es :
+            </div>
+            <ul class="list">
+              <li>lors de la cr&eacute;ation d&rsquo;un draft,</li>
+              <li>lors de la modification de certains champs,</li>
+              <li>avant l&rsquo;activation de l&rsquo;objet.</li>
+            </ul>
+            <div class="muted">
+              Elles s&rsquo;ex&eacute;cutent &agrave; l&rsquo;int&eacute;rieur du cycle draft, ce qui garantit que les
+              donn&eacute;es actives sont toujours coh&eacute;rentes.
+            </div>
+            <div class="muted">O&ugrave; d&eacute;finir les d&eacute;terminations</div>
+            <div class="muted">1. Behavior Definition (BDEF)</div>
+            <div class="muted">Les d&eacute;terminations sont d&eacute;clar&eacute;es dans la Behavior Definition :</div>
+            <pre class="code-block">determination set_defaults on modify &#123; create; &#125;</pre>
+            <div class="muted">
+              Cette d&eacute;claration indique :
+            </div>
+            <ul class="list">
+              <li>quand la d&eacute;termination est d&eacute;clench&eacute;e,</li>
+              <li>dans quel contexte (create / modify),</li>
+              <li>et sur quel &eacute;v&eacute;nement.</li>
+            </ul>
+            <div class="muted">2. Behavior Implementation (classe ZBP_*)</div>
+            <div class="muted">La logique est impl&eacute;ment&eacute;e dans la classe de comportement :</div>
+            <pre class="code-block">METHOD set_defaults.
+  IF status IS INITIAL.
+    status = 'NEW'.
+  ENDIF.
+
+  IF delivery_frequency IS NOT INITIAL.
+    next_delivery_date = sy-datum + 30.
+  ENDIF.
+ENDMETHOD.</pre>
+            <div class="muted">Exemple concret &mdash; Coffee Subscription</div>
+            <div class="muted">Dans le projet Coffee Subscription, les d&eacute;terminations sont utilis&eacute;es pour :</div>
+            <ul class="list">
+              <li>initialiser automatiquement le statut de souscription lors de la cr&eacute;ation,</li>
+              <li>calculer la date de prochaine livraison &agrave; partir de la fr&eacute;quence choisie,</li>
+              <li>maintenir la coh&eacute;rence entre les champs m&eacute;tier.</li>
+            </ul>
+            <div class="muted">
+              L&rsquo;utilisateur n&rsquo;a pas besoin de saisir ces informations : elles sont d&eacute;duites
+              automatiquement par le syst&egrave;me.
+            </div>
+            <div class="muted">Points d&rsquo;attention importants</div>
+            <div class="muted">Lors de l&rsquo;utilisation des d&eacute;terminations, il faut faire attention &agrave; :</div>
+            <ul class="list">
+              <li>ne pas remplacer une validation par une d&eacute;termination,</li>
+              <li>&eacute;viter les effets de bord (boucles involontaires),</li>
+              <li>g&eacute;rer correctement les champs d&eacute;j&agrave; renseign&eacute;s par l&rsquo;utilisateur,</li>
+              <li>garder une logique simple et pr&eacute;dictible.</li>
+            </ul>
+            <div class="muted">Une d&eacute;termination mal con&ccedil;ue peut :</div>
+            <ul class="list">
+              <li>&eacute;craser des donn&eacute;es utilisateur,</li>
+              <li>rendre le comportement difficile &agrave; comprendre,</li>
+              <li>compliquer le debug.</li>
+            </ul>
+            <div class="muted">Comparaison avec l&rsquo;ABAP classique</div>
+            <div class="muted">En ABAP classique, ce type de logique est souvent dispers&eacute; :</div>
+            <ul class="list">
+              <li>dans des MOVE-CORRESPONDING,</li>
+              <li>des IF en PAI,</li>
+              <li>ou du code sp&eacute;cifique &agrave; l&rsquo;&eacute;cran.</li>
+            </ul>
+            <div class="muted">En RAP, les d&eacute;terminations sont :</div>
+            <ul class="list">
+              <li>centralis&eacute;es,</li>
+              <li>d&eacute;claratives,</li>
+              <li>automatiquement ex&eacute;cut&eacute;es par le framework.</li>
+            </ul>
+            <div class="muted">
+              Cela am&eacute;liore la lisibilit&eacute;, la testabilit&eacute; et la maintenabilit&eacute;.
+            </div>
+            <div class="muted">Pourquoi les d&eacute;terminations sont cl&eacute;s dans ce projet</div>
+            <div class="muted">
+              Les d&eacute;terminations permettent &agrave; l&rsquo;application Coffee Subscription de :
+            </div>
+            <ul class="list">
+              <li>r&eacute;duire la saisie utilisateur,</li>
+              <li>fiabiliser les donn&eacute;es,</li>
+              <li>et offrir une exp&eacute;rience proche des applications SAP standards.</li>
+            </ul>
+            <div class="muted">
+              Leur bonne utilisation d&eacute;montre une compr&eacute;hension avanc&eacute;e du cycle de vie RAP
+              et des r&egrave;gles m&eacute;tier implicites.
+            </div>
+
           </details>
           <div class="step-takeaway"></div>
         </article>
@@ -669,7 +1200,102 @@ ENDMETHOD.
           </details>
           <details class="code-toggle">
             <summary>Voir explication</summary>
-            <div class="muted">Actions custom pour activer ou mettre &agrave; jour l&rsquo;abonnement.</div>
+            <div class="muted">&#9654;&#65039; Les actions dans SAP RAP &mdash; Coffee Subscription</div>
+            <div class="muted">&#128313; R&ocirc;le des actions</div>
+            <div class="muted">
+              Les actions RAP permettent de d&eacute;clencher une op&eacute;ration m&eacute;tier explicite,
+              initi&eacute;e volontairement par l&rsquo;utilisateur.
+            </div>
+            <div class="muted">
+              Dans le projet Coffee Subscription, les actions repr&eacute;sentent des transitions de cycle
+              de vie claires et contr&ocirc;l&eacute;es de l&rsquo;abonnement.
+            </div>
+            <div class="muted">&#128208; Place des actions dans l&rsquo;architecture RAP</div>
+            <div class="muted">Les actions font partie du Behavior Definition (BDEF) et sont :</div>
+            <ul class="list">
+              <li>expos&eacute;es automatiquement dans l&rsquo;UI Fiori Elements sous forme de boutons,</li>
+              <li>disponibles via le service OData V4,</li>
+              <li>ex&eacute;cut&eacute;es dans la classe de comportement de mani&egrave;re transactionnelle.</li>
+            </ul>
+            <div class="muted">
+              Elles interviennent uniquement sur des abonnements existants, lorsque l&rsquo;utilisateur souhaite
+              modifier leur &eacute;tat.
+            </div>
+            <div class="muted">&#128450;&#65039; O&ugrave; d&eacute;finir les actions</div>
+            <div class="muted">&#49;&#65039;&#8419; Behavior Definition (BDEF)</div>
+            <div class="muted">Les actions sont d&eacute;clar&eacute;es dans la Behavior Definition :</div>
+            <pre class="code-block">action pause result [1] $self;
+action unpause result [1] $self;
+action cancel result [1] $self;</pre>
+            <div class="muted">Chaque action correspond &agrave; une intention m&eacute;tier pr&eacute;cise.</div>
+            <div class="muted">&#50;&#65039;&#8419; Behavior Implementation (classe ZBP_*)</div>
+            <div class="muted">La logique m&eacute;tier est impl&eacute;ment&eacute;e dans la classe de comportement :</div>
+            <pre class="code-block">METHOD pause.
+  status = 'PAUSED'.
+ENDMETHOD.
+
+METHOD unpause.
+  status = 'ACTIVE'.
+ENDMETHOD.
+
+METHOD cancel.
+  status = 'CANCELED'.
+ENDMETHOD.</pre>
+            <div class="muted">&#128260; Exemple concret &mdash; Cycle de vie Coffee Subscription</div>
+            <div class="muted">Dans l&rsquo;application Coffee Subscription, un abonnement peut suivre le cycle de vie suivant :</div>
+            <ul class="list">
+              <li>ACTIVE : abonnement en cours de livraison</li>
+              <li>PAUSED : abonnement temporairement suspendu</li>
+              <li>CANCELED : abonnement d&eacute;finitivement arr&ecirc;t&eacute;</li>
+            </ul>
+            <div class="muted">Les actions permettent de piloter ce cycle :</div>
+            <ul class="list">
+              <li>Pause &rarr; ACTIVE &rarr; PAUSED</li>
+              <li>Unpause &rarr; PAUSED &rarr; ACTIVE</li>
+              <li>Cancel &rarr; ACTIVE / PAUSED &rarr; CANCELED</li>
+            </ul>
+            <div class="muted">
+              Ces transitions refl&egrave;tent des gestes m&eacute;tier r&eacute;els, similaires &agrave; ceux rencontr&eacute;s
+              dans des applications de gestion d&rsquo;abonnements ou de contrats.
+            </div>
+            <div class="muted">&#9888;&#65039; Points d&rsquo;attention importants</div>
+            <div class="muted">Lors de l&rsquo;impl&eacute;mentation des actions, il est important de :</div>
+            <ul class="list">
+              <li>v&eacute;rifier la coh&eacute;rence de l&rsquo;&eacute;tat courant avant d&rsquo;autoriser l&rsquo;action,</li>
+              <li>emp&ecirc;cher les transitions invalides (ex : Unpause sur un abonnement ACTIVE),</li>
+              <li>g&eacute;rer correctement les messages utilisateur,</li>
+              <li>s&eacute;curiser les actions via les autorisations si n&eacute;cessaire.</li>
+            </ul>
+            <div class="muted">Une action mal contr&ocirc;l&eacute;e peut entra&icirc;ner :</div>
+            <ul class="list">
+              <li>des &eacute;tats incoh&eacute;rents,</li>
+              <li>une mauvaise exp&eacute;rience utilisateur,</li>
+              <li>ou des erreurs fonctionnelles.</li>
+            </ul>
+            <div class="muted">&#128257; Comparaison avec l&rsquo;ABAP classique</div>
+            <div class="muted">En ABAP classique, ce type de logique est souvent r&eacute;parti :</div>
+            <ul class="list">
+              <li>dans des boutons d&rsquo;&eacute;cran,</li>
+              <li>via des OKCODE,</li>
+              <li>ou dans du code &eacute;v&eacute;nementiel sp&eacute;cifique.</li>
+            </ul>
+            <div class="muted">En RAP, les actions sont :</div>
+            <ul class="list">
+              <li>centralis&eacute;es dans le mod&egrave;le m&eacute;tier,</li>
+              <li>d&eacute;claratives,</li>
+              <li>et automatiquement int&eacute;gr&eacute;es &agrave; l&rsquo;UI Fiori.</li>
+            </ul>
+            <div class="muted">
+              Cela am&eacute;liore la lisibilit&eacute;, la coh&eacute;rence fonctionnelle et la maintenabilit&eacute;.
+            </div>
+            <div class="muted">&#127919; Pourquoi les actions sont un point fort du projet</div>
+            <div class="muted">Les actions permettent &agrave; l&rsquo;application Coffee Subscription de :</div>
+            <ul class="list">
+              <li>repr&eacute;senter clairement le cycle de vie m&eacute;tier d&rsquo;un abonnement,</li>
+              <li>offrir des interactions utilisateur explicites et contr&ocirc;l&eacute;es,</li>
+              <li>se rapprocher du comportement des applications SAP standards.</li>
+            </ul>
+
           </details>
           <div class="step-takeaway"></div>
         </article>
@@ -685,7 +1311,43 @@ ENDMETHOD.
           />
           <details class="code-toggle">
             <summary>Voir explication</summary>
-            <div class="muted">Vues ZC_*_VH pour fiabiliser les entr&eacute;es.</div>
+            <div class="muted">&#129517; Value Helps (VH) dans SAP RAP</div>
+            <div class="muted">
+              Les Value Helps permettent de guider la saisie utilisateur en proposant des valeurs
+              contr&ocirc;l&eacute;es directement dans l&rsquo;UI Fiori.
+            </div>
+            <div class="muted">Dans RAP, elles sont g&eacute;n&eacute;ralement impl&eacute;ment&eacute;es via :</div>
+            <ul class="list">
+              <li>une CDS d&eacute;di&eacute;e (VH),</li>
+              <li>associ&eacute;e &agrave; un champ dans la CDS Projection.</li>
+            </ul>
+            <div class="muted">Cette approche permet :</div>
+            <ul class="list">
+              <li>de s&eacute;curiser les donn&eacute;es,</li>
+              <li>d&rsquo;am&eacute;liorer l&rsquo;exp&eacute;rience utilisateur,</li>
+              <li>et de centraliser la logique de s&eacute;lection.</li>
+            </ul>
+            <div class="muted">Mise en &oelig;uvre (principe)</div>
+            <ul class="list">
+              <li>Cr&eacute;er une CDS Value Help exposant les valeurs autoris&eacute;es</li>
+              <li>L&rsquo;associer au champ concern&eacute; via une annotation</li>
+              <li>Fiori Elements g&egrave;re automatiquement l&rsquo;affichage</li>
+            </ul>
+            <div class="muted">Exemple d&rsquo;usage &mdash; Coffee Subscription</div>
+            <div class="muted">Les VH sont utilis&eacute;es pour :</div>
+            <ul class="list">
+              <li>le type de caf&eacute;,</li>
+              <li>la fr&eacute;quence de livraison,</li>
+              <li>et les statuts.</li>
+            </ul>
+            <div class="muted">
+              L&rsquo;utilisateur s&eacute;lectionne une valeur coh&eacute;rente, sans saisie libre.
+            </div>
+            <div class="muted">Point cl&eacute;</div>
+            <div class="muted">
+              Les Value Helps sont int&eacute;gr&eacute;es nativement au mod&egrave;le RAP, sans logique UI
+              sp&eacute;cifique, ce qui garantit une application propre et maintenable.
+            </div>
           </details>
           <div class="step-takeaway"></div>
         </article>
@@ -701,7 +1363,86 @@ ENDMETHOD.
           />
           <details class="code-toggle">
             <summary>Voir explication</summary>
-            <pre class="code-block">// TODO: snippet RAP (Error handling)</pre>
+            <div class="muted">&#9888;&#65039; Error Handling dans SAP RAP</div>
+            <div class="muted">&#128313; Principe g&eacute;n&eacute;ral</div>
+            <div class="muted">
+              En SAP RAP, la gestion des erreurs est centralis&eacute;e et pilot&eacute;e par le framework.
+              Les messages sont retourn&eacute;s directement &agrave; l&rsquo;UI Fiori, sans logique sp&eacute;cifique
+              c&ocirc;t&eacute; interface.
+            </div>
+            <div class="muted">Les erreurs sont g&eacute;n&eacute;ralement &eacute;mises depuis :</div>
+            <ul class="list">
+              <li>Validations</li>
+              <li>Actions</li>
+              <li>Determinations (rarement bloquantes)</li>
+            </ul>
+            <div class="muted">&#129517; Types de messages RAP</div>
+            <div class="table">
+              <div class="table-row table-header">
+                <span>Type</span>
+                <span>Effet</span>
+                <span>Usage</span>
+              </div>
+              <div class="table-row">
+                <span>Error</span>
+                <span>Bloquant</span>
+                <span>Donn&eacute;e invalide, r&egrave;gle m&eacute;tier viol&eacute;e</span>
+              </div>
+              <div class="table-row">
+                <span>Warning</span>
+                <span>Non bloquant</span>
+                <span>Information importante</span>
+              </div>
+              <div class="table-row">
+                <span>Information</span>
+                <span>Informatif</span>
+                <span>Retour utilisateur</span>
+              </div>
+              <div class="table-row">
+                <span>Success</span>
+                <span>Succ&egrave;s</span>
+                <span>Confirmation d&rsquo;action</span>
+              </div>
+            </div>
+            <div class="muted">&#128073; En pratique, Error est le plus utilis&eacute; pour les r&egrave;gles m&eacute;tier critiques.</div>
+            <div class="muted">&#129514; Syntaxe simple (exemple)</div>
+            <pre class="code-block">APPEND VALUE #(
+  %msg = new_message(
+    id       = 'ZMSG'
+    number   = '001'
+    severity = if_abap_behv_message=&gt;severity-error
+    v1       = 'Invalid subscription data'
+  )
+) TO reported.</pre>
+            <ul class="list">
+              <li>severity-error &rarr; bloque l&rsquo;enregistrement</li>
+              <li>Le message est affich&eacute; automatiquement dans l&rsquo;UI</li>
+            </ul>
+            <div class="muted">&#9749; Exemple concret &mdash; Coffee Subscription</div>
+            <div class="muted">Dans l&rsquo;application Coffee Subscription, le Error Handling est utilis&eacute; par exemple lorsque :</div>
+            <ul class="list">
+              <li>la quantit&eacute; est nulle ou n&eacute;gative,</li>
+              <li>la fr&eacute;quence de livraison n&rsquo;est pas renseign&eacute;e,</li>
+              <li>une action (Pause / Unpause / Cancel) est d&eacute;clench&eacute;e dans un &eacute;tat invalide.</li>
+            </ul>
+            <div class="muted">Dans ces cas :</div>
+            <ul class="list">
+              <li>un message bloquant est affich&eacute;,</li>
+              <li>l&rsquo;objet reste en mode draft,</li>
+              <li>l&rsquo;utilisateur peut corriger sans perte de donn&eacute;es.</li>
+            </ul>
+            <div class="muted">&#127919; Bonnes pratiques</div>
+            <ul class="list">
+              <li>Utiliser des messages clairs et orient&eacute;s m&eacute;tier</li>
+              <li>Bloquer uniquement lorsque n&eacute;cessaire</li>
+              <li>Laisser le draft actif pour correction</li>
+              <li>Tester syst&eacute;matiquement les messages dans l&rsquo;UI</li>
+            </ul>
+            <div class="muted">&#128273; Point cl&eacute;</div>
+            <div class="muted">
+              Un bon Error Handling en RAP garantit : des donn&eacute;es fiables, une exp&eacute;rience
+              utilisateur fluide, et un comportement proche des applications SAP standards.
+            </div>
           </details>
           <p class="muted">Messages clairs, erreurs bloquantes et reprise via draft.</p>
           <div class="step-takeaway"></div>

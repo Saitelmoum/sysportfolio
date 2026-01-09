@@ -275,7 +275,7 @@ img {
 }
 
 .profile-photo {
-  width: 240px;
+  width: 300px;
   height: auto;
   border-radius: 6px;
   object-fit: cover;
@@ -865,7 +865,7 @@ img {
   }
 
   .profile-photo {
-    width: 170px;
+    width: 210px;
     height: auto;
   }
 }
@@ -885,7 +885,7 @@ img {
   }
 
   .profile-photo {
-    width: 200px;
+    width: 240px;
   }
 }
 
