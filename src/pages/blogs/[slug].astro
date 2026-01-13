@@ -61,19 +61,14 @@ const ogImage = post.coverImage || "/favicon.svg";
     </aside>
 
     <article class="article-content">
-      <div class="article-cover">
-        {post.coverImage ? (
-          <img src={post.coverImage} alt="Couverture de l&rsquo;article" loading="lazy" />
-        ) : (
-          <div class="blog-cover-fallback" aria-hidden="true"></div>
-        )}
-      </div>
-
       {post.sections.map((section) => (
         <section id={section.id} class="article-section">
           <h2 set:html={section.headingHtml}></h2>
           {section.bodyHtml?.map((paragraph) => (
             <p class="muted" set:html={paragraph}></p>
+          ))}
+          {section.blocksHtml?.map((block) => (
+            <div set:html={block}></div>
           ))}
           {section.listHtml ? (
             <ul class="list">
