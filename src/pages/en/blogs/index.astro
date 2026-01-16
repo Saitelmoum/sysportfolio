@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { blogs } from "../../../data/blogs-en";
+
+const sortedBlogs = [...blogs].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+const tags = Array.from(new Set(sortedBlogs.flatMap((blog) => blog.tags))).sort();
+---
+
+<BaseLayout lang="en" title="Blogs | SAP Technical Consultant">
+  <section class="container blog-hero">
+    <div>
+      <h1>Blogs</h1>
+      <p class="subtitle">
+        Short, practical articles on RAP, ABAP, Fiori, performance, and delivery quality.
+      </p>
+    </div>
+    <div class="blog-controls">
+      <label class="sr-only" for="blog-search">Search</label>
+      <input
+        id="blog-search"
+        type="search"
+        placeholder="Search a topic"
+        class="blog-input"
+        data-blog-search
+      />
+      <label class="sr-only" for="blog-tag">Filter by tag</label>
+      <select id="blog-tag" class="blog-select" data-blog-tag>
+        <option value="">All tags</option>
+        {tags.map((tag) => (
+          <option value={tag.toLowerCase()}>{tag}</option>
+        ))}
+      </select>
+      <label class="sr-only" for="blog-sort">Sort</label>
+      <select id="blog-sort" class="blog-select" data-blog-sort>
+        <option value="latest">Latest</option>
+        <option value="oldest">Oldest</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="blog-grid" data-blog-grid>
+      {sortedBlogs.map((post) => (
+        <article
+          class="card blog-card"
+          data-blog-card
+          data-date={post.date}
+          data-tags={post.tags.map((tag) => tag.toLowerCase()).join(" ")}
+          data-search={`${post.titleText} ${post.descriptionText} ${post.tags.join(" ")}`.toLowerCase()}
+        >
+          <div class="blog-cover">
+            {post.coverImage ? (
+              <img src={post.coverImage} alt="Blog cover" loading="lazy" />
+            ) : (
+              <div class="blog-cover-fallback" aria-hidden="true"></div>
+            )}
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-tags">
+              {post.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+            <h3 set:html={post.titleHtml}></h3>
+            <p class="muted" set:html={post.descriptionHtml}></p>
+            <div class="blog-meta">
+              <span>{new Date(post.date).toLocaleDateString("en-US")}</span>
+              <span>{post.readingTime} min read</span>
+            </div>
+            <a class="button ghost" href={`/en/blogs/${post.slug}`}>Read</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  const searchInput = document.querySelector("[data-blog-search]");
+  const tagSelect = document.querySelector("[data-blog-tag]");
+  const sortSelect = document.querySelector("[data-blog-sort]");
+  const grid = document.querySelector("[data-blog-grid]");
+
+  if (grid) {
+    const cards = Array.from(grid.querySelectorAll("[data-blog-card]"));
+
+    const applyFilters = () => {
+      const term = (searchInput?.value || "").trim().toLowerCase();
+      const tag = (tagSelect?.value || "").trim().toLowerCase();
+
+      cards.forEach((card) => {
+        const search = card.dataset.search || "";
+        const tags = card.dataset.tags || "";
+        const matchesTerm = !term || search.includes(term);
+        const matchesTag = !tag || tags.includes(tag);
+        card.classList.toggle("is-hidden", !(matchesTerm && matchesTag));
+      });
+    };
+
+    const applySort = () => {
+      const order = sortSelect?.value || "latest";
+      const sorted = [...cards].sort((a, b) => {
+        const dateA = new Date(a.dataset.date || "1970-01-01").getTime();
+        const dateB = new Date(b.dataset.date || "1970-01-01").getTime();
+        return order === "latest" ? dateB - dateA : dateA - dateB;
+      });
+      sorted.forEach((card) => grid.appendChild(card));
+    };
+
+    searchInput?.addEventListener("input", applyFilters);
+    tagSelect?.addEventListener("change", applyFilters);
+    sortSelect?.addEventListener("change", () => {
+      applySort();
+      applyFilters();
+    });
+
+    applySort();
+    applyFilters();
+  }
+</script>

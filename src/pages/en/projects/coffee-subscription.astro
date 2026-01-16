@@ -1,0 +1,1126 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout lang="en" title="Coffee Subscription | Case Study">
+  <section class="container case-hero">
+    <div>
+      <h1>Coffee Subscription</h1>
+      <p class="subtitle">Case study &mdash; SAP ABAP RAP (Managed, Draft, OData V4, Fiori Elements)</p>
+      <div class="badge-list">
+        <span class="badge">RAP</span>
+        <span class="badge">CDS</span>
+        <span class="badge">BDEF</span>
+        <span class="badge">Draft</span>
+        <span class="badge">Validations</span>
+        <span class="badge">Determinations</span>
+        <span class="badge">OData V4</span>
+        <span class="badge">ADT</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container case-shell">
+    <aside class="case-sidebar">
+        <div class="card case-nav">
+          <div class="card-title">Quick navigation</div>
+          <nav>
+            <a href="#architecture">Architecture</a>
+            <a href="#artefacts">ADT artifacts</a>
+            <a href="#chronologie">Timeline</a>
+            <a href="#regles">Business rules</a>
+            <a href="#draft">Draft &amp; errors</a>
+            <a href="#vh">Value Helps</a>
+            <a href="#debug">Debug &amp; challenges</a>
+            <a href="#conclusion">Conclusion</a>
+          </nav>
+        </div>
+      </aside>
+
+    <div class="case-main">
+      <details class="case-nav-mobile">
+        <summary>Quick navigation</summary>
+        <nav>
+          <a href="#architecture">Architecture</a>
+          <a href="#artefacts">ADT artifacts</a>
+          <a href="#chronologie">Timeline</a>
+          <a href="#regles">Business rules</a>
+          <a href="#draft">Draft &amp; errors</a>
+          <a href="#vh">Value Helps</a>
+          <a href="#debug">Debug &amp; challenges</a>
+          <a href="#conclusion">Conclusion</a>
+        </nav>
+      </details>
+
+      <section class="section">
+        <div class="card case-summary">
+          <h2>Business context &amp; case study</h2>
+          <p class="muted">
+            This project is part of my RAP upskilling, carried out alongside client work. The goal
+            is to simulate a production-like case with a robust architecture, clear business rules,
+            a clean Fiori UI, and a realistic debug path, while following SAP best practices for a
+            clean and maintainable delivery.
+          </p>
+        </div>
+        <details class="accordion-box">
+          <summary>
+            <span class="accordion-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M12 8v8"></path>
+                <path d="M8 12h8"></path>
+              </svg>
+            </span>
+            What this project demonstrates
+          </summary>
+          <ul class="accordion-list">
+            <li>Ability to design a complete RAP business object</li>
+            <li>Understanding of the business &harr; technical link</li>
+            <li>Mastery of key concepts (draft, validations, determinations)</li>
+            <li>Production-like delivery approach</li>
+          </ul>
+        </details>
+      </section>
+
+      <section class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 6h16"></path>
+              <path d="M4 12h16"></path>
+              <path d="M4 18h10"></path>
+            </svg>
+          </span>
+          <h2>Simulated business case &mdash; Coffee Subscription</h2>
+        </div>
+        <div class="card">
+          <p class="muted">
+            The <strong>Coffee Subscription</strong> application simulates a realistic
+            <strong>subscription management</strong> business case, inspired by production scenarios
+            (customer subscriptions, recurring contracts, scheduled services).
+          </p>
+          <p class="muted">
+            The principle is intentionally simple and representative: a customer subscribes by
+            choosing <strong>a coffee type</strong>, <strong>a delivery frequency</strong>, and
+            <strong>a subscription status</strong>. These are managed throughout the
+            <strong>subscription lifecycle</strong>: creation, change, validation, and activation.
+          </p>
+          <p class="muted">From a business perspective, this is comparable to:</p>
+          <ul class="list">
+            <li><strong>service subscriptions</strong> (SaaS, maintenance, recurring contracts),</li>
+            <li><strong>customer contracts</strong> with specific management rules,</li>
+            <li>and more broadly <strong>critical business objects</strong> requiring tight lifecycle control.</li>
+          </ul>
+          <p class="muted">This project reproduces production-like challenges, including:</p>
+          <ul class="list">
+            <li><strong>data control</strong> during creation and update,</li>
+            <li><strong>state management</strong> through <em>draft</em> mode,</li>
+            <li><strong>blocking business validations</strong>,</li>
+            <li><strong>automatic determinations</strong>,</li>
+            <li>and exposing a <strong>consistent, guided Fiori UI</strong> for end users.</li>
+          </ul>
+          <p class="muted">
+            The goal was not to build a simple demo app, but to <strong>design a clean, extensible,
+            maintainable architecture</strong> aligned with <strong>SAP RAP best practices</strong>,
+            in a flow close to a <strong>real project context</strong>.
+          </p>
+        </div>
+      </section>
+
+      <section id="architecture" class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 4h6v6H4z"></path>
+              <path d="M14 4h6v6h-6z"></path>
+              <path d="M4 14h6v6H4z"></path>
+              <path d="M14 14h6v6h-6z"></path>
+            </svg>
+          </span>
+          <h2>Architecture</h2>
+        </div>
+        <img
+          class="image-placeholder"
+          src="/profile/Architecture.png"
+          alt="Coffee Subscription architecture diagram"
+          loading="lazy"
+        />
+        <details class="code-toggle">
+          <summary>See explanation</summary>
+          <div class="muted">
+            The application architecture is based on the Managed RAP model, which separates
+            responsibilities between data, business behavior, and the user interface.
+          </div>
+          <div class="muted">
+            Persistence tables store active and draft data. CDS Interface Views (ZI) define the
+            semantic model and business relationships. CDS Projection Views (ZC) expose only the
+            fields required by the UI and carry the Fiori annotations.
+          </div>
+          <div class="muted">
+            The Behavior Definition (BDEF) centralizes transactional rules: create, update, delete,
+            validations, determinations, and actions. The Service Definition and OData V4 Service
+            Binding then expose these objects to the interface.
+          </div>
+          <div class="muted">
+            Finally, the Fiori Elements UI is generated automatically from metadata, ensuring a
+            consistent, maintainable application aligned with SAP standards.
+          </div>
+          <div class="muted">
+            This architecture is extensible and close to real project contexts, while making
+            functional and technical evolutions easier.
+          </div>
+        </details>
+      </section>
+
+      <section id="artefacts" class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+              <path d="M7 8h10M7 12h10M7 16h6"></path>
+            </svg>
+          </span>
+          <h2>ADT artifacts</h2>
+        </div>
+        <div class="card table-card">
+          <div class="table">
+            <div class="table-row table-header">
+              <span>Type</span>
+              <span>Example</span>
+              <span>Role</span>
+            </div>
+            <div class="table-row">
+              <span>Tables</span>
+              <span>ZCS_SUB_TRL, ZCS_SUB_TRL_D</span>
+              <span>Persistence + draft</span>
+            </div>
+            <div class="table-row">
+              <span>CDS Interface</span>
+              <span>ZI_COFFEE_SUB_TRL</span>
+              <span>Business model</span>
+            </div>
+            <div class="table-row">
+              <span>CDS Projection</span>
+              <span>ZC_COFFEE_SUB_TRL, ZC_*_VH</span>
+              <span>UI exposure</span>
+            </div>
+            <div class="table-row">
+              <span>Behavior</span>
+              <span>ZBP_I_COFFEE_SUB_TRL</span>
+              <span>Rules and draft</span>
+            </div>
+            <div class="table-row">
+              <span>Service</span>
+              <span>ZUI_COFFEE_SUB_TRL + Binding O4</span>
+              <span>OData V4</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="chronologie" class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M12 7v6l3 3"></path>
+            </svg>
+          </span>
+          <h2>Timeline</h2>
+        </div>
+
+        <article class="card step-card">
+  <div class="step-header">1. Tables</div>
+  <p class="muted">Goal: structure persistence and draft data.</p>
+  <img
+    class="step-image image-placeholder"
+    src="/profile/Table.png"
+    alt="ADT tables screenshot"
+    loading="lazy"
+  />
+  <details class="code-toggle">
+    <summary>See explanation</summary>
+    <div class="muted">Role of tables in RAP architecture</div>
+    <div class="muted">
+      In SAP RAP, tables are the persistence foundation and are more structured than in classic ABAP.
+    </div>
+    <div class="muted">
+      A persistence table stores active business data (validated subscriptions). A linked draft table stores
+      temporary changes until the user validates the record.
+    </div>
+    <div class="muted">
+      This separation enables a guided, secure user experience without affecting active data until business
+      rules are satisfied.
+    </div>
+    <div class="muted">Compared with classic ABAP</div>
+    <div class="muted">
+      In classic ABAP, data is often written directly at SAVE time, and intermediate states are handled via:
+    </div>
+    <ul class="list">
+      <li>temporary Z tables,</li>
+      <li>status flags,</li>
+      <li>or complex application logic.</li>
+    </ul>
+    <div class="muted">In RAP, draft handling is native, which:</div>
+    <ul class="list">
+      <li>reduces code complexity,</li>
+      <li>improves transactional robustness,</li>
+      <li>standardizes application behavior.</li>
+    </ul>
+    <div class="muted">Position in the RAP architecture</div>
+    <div class="muted">Tables are the starting point of the RAP flow:</div>
+    <ul class="list">
+      <li>they feed CDS Interface Views (ZI),</li>
+      <li>which are projected to the UI,</li>
+      <li>and handled via the Behavior Definition.</li>
+    </ul>
+    <div class="muted">
+      This model ensures a clear separation between data, business logic, and UI, aligned with modern SAP best
+      practices.
+    </div>
+  </details>
+  <div class="step-takeaway"></div>
+</article>
+
+        <article class="card step-card">
+  <div class="step-header">2. CDS</div>
+  <p class="muted">Goal: model ZI and ZC projections.</p>
+  <img
+    class="step-image image-placeholder"
+    src="/profile/CDSch.png"
+    alt="ADT CDS screenshot"
+    loading="lazy"
+  />
+  <details class="code-toggle">
+    <summary>See explanation</summary>
+    <div class="muted">CDS Interface &amp; CDS Projection in RAP</div>
+    <div class="muted"><strong>CDS Interface View (ZI_*)</strong></div>
+    <div class="muted">
+      CDS Interface Views represent the core semantic model of the business object in RAP. Built on
+      persistence and draft tables, they define structure, associations, keys, and semantic aspects
+      (types, units, statuses).
+    </div>
+    <div class="muted">
+      ZI views are stable and UI-independent, designed to be reusable and extensible over time.
+    </div>
+    <div class="muted"><strong>Key role</strong></div>
+    <div class="muted">
+      The CDS Interface is the source of business truth: it describes what the object is, without
+      focusing on how it is displayed.
+    </div>
+    <div class="muted"><strong>CDS Projection View (ZC_*)</strong></div>
+    <div class="muted">
+      CDS Projection Views expose a controlled, UI-oriented view of the business object.
+    </div>
+    <div class="muted">They allow you to:</div>
+    <ul class="list">
+      <li>select only the fields required by the app,</li>
+      <li>hide internal model complexity,</li>
+      <li>adapt exposure to functional context.</li>
+    </ul>
+    <div class="muted"><strong>UI annotations &amp; metadata</strong></div>
+    <div class="muted">
+      UI annotations (lineItem, identification, selectionFields, etc.) live on projections to define
+      Fiori behavior, list/object pages, and guided data entry.
+    </div>
+    <div class="muted"><strong>Metadata Extensions</strong></div>
+    <div class="muted">
+      Metadata Extensions separate the data model from UI annotations, improving readability and
+      maintenance and allowing UI adjustments without touching the core CDS model.
+    </div>
+    <div class="muted">This is a key best practice for structured RAP projects.</div>
+    <div class="muted"><strong>Value Helps (VH)</strong></div>
+    <div class="muted">Value Helps are usually implemented via:</div>
+    <ul class="list">
+      <li>dedicated CDS (Projection or VH),</li>
+      <li>linked to fields in the CDS Projection.</li>
+    </ul>
+    <div class="muted">They help:</div>
+    <ul class="list">
+      <li>secure user input,</li>
+      <li>offer consistent values,</li>
+      <li>standardize the Fiori experience.</li>
+    </ul>
+    <div class="muted">
+      In RAP, VH are native to the model, with no UI-specific logic.
+    </div>
+    <div class="muted"><strong>Position in RAP architecture</strong></div>
+    <ul class="list">
+      <li>ZI: stable, reusable business definition</li>
+      <li>ZC: controlled, UI-oriented exposure</li>
+    </ul>
+    <div class="muted">
+      This separation enables a clean, scalable architecture aligned with SAP best practices.
+    </div>
+  </details>
+  <div class="step-takeaway"></div>
+</article>
+
+        <article class="card step-card">
+  <div class="step-header">3. Service Binding</div>
+  <p class="muted">Goal: expose the OData V4 API.</p>
+  <img
+    class="step-image image-placeholder"
+    src="/profile/Service.png"
+    alt="Service binding setup screenshot"
+    loading="lazy"
+  />
+  <details class="code-toggle">
+    <summary>See explanation</summary>
+    <div class="muted"><strong>Service Definition</strong></div>
+    <div class="muted">
+      The Service Definition is the exposure contract for the RAP business object. It selects which
+      CDS projections are exposed externally without impacting the internal model.
+    </div>
+    <div class="muted">
+      It acts like an API contract that guarantees a stable interface for UI or integrations.
+    </div>
+    <div class="muted"><strong>Key points</strong></div>
+    <ul class="list">
+      <li>Controlled exposure of RAP entities</li>
+      <li>Clear separation between internal model and exposed surface</li>
+      <li>Prepared for UI consumption or future integration</li>
+    </ul>
+    <div class="muted"><strong>Service Binding</strong></div>
+    <div class="muted">
+      The Service Binding is the final step that makes the RAP object consumable. It binds the
+      Service Definition to a concrete protocol (typically OData V4) and generates:
+    </div>
+    <ul class="list">
+      <li>the endpoints required by Fiori Elements UI.</li>
+    </ul>
+    <div class="muted">This is where the service is activated, tested, and published.</div>
+    <div class="muted"><strong>Why OData V4</strong></div>
+    <ul class="list">
+      <li>better RAP integration,</li>
+      <li>consistent, standard Fiori Elements UI generation.</li>
+    </ul>
+    <div class="muted"><strong>Compared with classic ABAP</strong></div>
+    <div class="muted">Classic exposure often relies on:</div>
+    <ul class="list">
+      <li>hand-built OData services (SEGW),</li>
+      <li>manual mapping and UI-specific logic.</li>
+    </ul>
+    <div class="muted">
+      With RAP, the Service Definition + Binding drastically reduce custom code and provide a
+      testable, evolvable exposure layer aligned with real project contexts.
+    </div>
+  </details>
+  <div class="step-takeaway"></div>
+</article>
+
+        <article id="draft" class="card step-card">
+  <div class="step-header">4. Draft</div>
+  <p class="muted">Goal: allow draft editing.</p>
+  <img
+    class="step-image image-placeholder"
+    src="/profile/FioriDraft.png"
+    alt="Fiori draft mode screenshot"
+    loading="lazy"
+  />
+  <details class="code-toggle">
+    <summary>See snippet</summary>
+    <pre class="code-block">managed implementation in class ZBP_I_COFFEE_SUB_TRL unique;
+strict ( 2 );
+with draft; // active draft handling
+define behavior for ZI_COFFEE_SUB_TRL
+persistent table zcs_sub_trl
+draft table zcs_sub_trl_d // draft persistence
+lock master
+total etag local_last_changed_at
+etag master local_last_changed_at
+authorization master ( global )
+&#123;
+  create;
+  update;
+  delete;
+  field ( numbering : managed, readonly )
+  subscription_uuid;
+  field ( readonly )
+  created_by,
+  created_at,
+  last_changed_by,
+  last_changed_at,
+  local_last_changed_at,
+  next_delivery_date,
+  status;
+  action ( features : instance ) pause;
+  action ( features : instance ) unpause;
+  action ( features : instance ) cancel;
+  validation validate_qty on save &#123; create; update; field qty_grams; &#125;
+  validation validate_start_date on save &#123; create; field start_date; &#125;
+  validation validate_status_transition on save &#123; create; update; field status; &#125;
+  validation validate_email on save &#123; create; update; field customer_email; &#125;
+  validation validate_frequency on save &#123; create; update; field frequency; &#125;
+  determination set_defaults on modify &#123; create; field status; &#125;
+  determination calc_next_delivery on modify &#123; create; update; field start_date; &#125;
+  draft determine action Prepare // draft prepare flow
+  &#123;
+    validation validate_qty; // draft validations
+    validation validate_start_date; // draft validations
+    validation validate_email; // draft validations
+    validation validate_frequency; // draft validations
+    validation validate_status_transition; // draft validations
+  &#125;
+  draft action Edit; // draft edit
+  draft action Activate optimized; // draft activation
+  draft action Discard; // draft discard
+  draft action Resume; // draft resume
+  side effects
+  &#123;
+    action pause affects field status;
+    action unpause affects field status;
+    action cancel affects field status;
+  &#125;
+&#125;</pre>
+  </details>
+  <details class="code-toggle">
+    <summary>See explanation</summary>
+    <div class="muted"><strong>Role of Draft</strong></div>
+    <div class="muted">
+      Draft mode allows temporary changes without immediately impacting active data.
+    </div>
+    <div class="muted">
+      When a user creates or edits an object, data is stored in a draft instance and becomes active
+      only after explicit validation (Save/Activate).
+    </div>
+    <div class="muted">This mechanism is essential to:</div>
+    <ul class="list">
+      <li>secure user input,</li>
+      <li>apply business rules before activation,</li>
+      <li>deliver a standard SAP-like experience.</li>
+    </ul>
+    <div class="muted"><strong>Draft in the RAP flow</strong></div>
+    <ul class="list">
+      <li>Persistence tables: active data</li>
+      <li>Draft tables: temporary data</li>
+      <li>CDS Interface &amp; Projection: expose both states</li>
+      <li>Behavior Definition: drives lifecycle (draft &rarr; active)</li>
+      <li>Fiori Elements UI: handles draft state automatically</li>
+    </ul>
+    <div class="muted">The RAP framework synchronizes draft and active states.</div>
+    <div class="muted"><strong>Where Draft is defined</strong></div>
+    <div class="muted">1. Tables</div>
+    <div class="muted">
+      A dedicated draft table is linked to the persistence table and stores changes in progress.
+    </div>
+    <div class="muted">2. Behavior Definition (BDEF)</div>
+    <div class="muted">Draft is activated directly in the Behavior Definition.</div>
+    <div class="muted"><strong>Draft lifecycle (example)</strong></div>
+    <ul class="list">
+      <li>User clicks Create Subscription</li>
+      <li>A draft instance is created</li>
+      <li>User fills fields (Value Helps, determinations)</li>
+      <li>Validations run</li>
+      <li>If error: draft is kept</li>
+      <li>If OK: Activate &rarr; data copied to active table, draft removed</li>
+    </ul>
+    <div class="muted"><strong>Watchouts</strong></div>
+    <ul class="list">
+      <li>validation consistency (also runs in draft),</li>
+      <li>determinations must handle both states,</li>
+      <li>draft table and technical fields must be correct.</li>
+    </ul>
+    <div class="muted">Misconfigured drafts can cause UI inconsistencies or activation issues.</div>
+    <div class="muted"><strong>Why Draft matters in this project</strong></div>
+    <div class="muted">
+      Draft makes applications more robust and closer to SAP standard behavior. Mastering it is a
+      strong indicator of RAP maturity in real project contexts.
+    </div>
+  </details>
+  <div class="step-takeaway"></div>
+</article>
+
+        <article class="card step-card">
+  <div class="step-header">5. Validations</div>
+  <p class="muted">Goal: enforce business checks at save time.</p>
+  <img
+    class="step-image image-placeholder"
+    src="/profile/Validation.png"
+    alt="Validation rules screenshot"
+    loading="lazy"
+  />
+  <details class="code-toggle">
+    <summary>See snippet</summary>
+    <pre class="code-block">validation check_quantity on save &#123; field quantity; &#125;
+validation check_email on save &#123; field customer_email; &#125;</pre>
+  </details>
+  <details class="code-toggle">
+    <summary>See explanation</summary>
+    <div class="muted"><strong>Role of validations</strong></div>
+    <div class="muted">
+      Validations ensure data consistency before a business object is saved or activated.
+    </div>
+    <div class="muted">
+      They block actions when a business rule is violated (missing field, inconsistent value, or
+      functional rule breach).
+    </div>
+    <div class="muted">
+      On error, the user receives a blocking message and the instance remains in draft.
+    </div>
+    <div class="muted"><strong>Place in RAP</strong></div>
+    <div class="muted">Validations belong to the Behavior Definition (BDEF) and run:</div>
+    <ul class="list">
+      <li>on create,</li>
+      <li>on update,</li>
+      <li>and especially before draft activation.</li>
+    </ul>
+    <div class="muted">
+      They sit right before the draft ? active transition, ensuring only valid data is persisted.
+    </div>
+    <div class="muted"><strong>Where to define validations</strong></div>
+    <div class="muted">1. Behavior Definition (BDEF)</div>
+    <div class="muted">Validations are declared in the BDEF:</div>
+    <pre class="code-block">validation check_quantity on save &#123; field quantity; &#125;</pre>
+    <div class="muted">2. Behavior implementation (ZBP_* class)</div>
+    <div class="muted">Business logic is implemented in the behavior class.</div>
+    <div class="muted"><strong>Concrete example</strong></div>
+    <div class="muted">On subscription creation:</div>
+    <ul class="list">
+      <li>quantity must be strictly positive,</li>
+      <li>frequency must not be initial,</li>
+      <li>coffee type must be provided.</li>
+    </ul>
+    <div class="muted">If a rule is violated:</div>
+    <ul class="list">
+      <li>the save is blocked,</li>
+      <li>an error message appears in the UI,</li>
+      <li>the draft is kept for correction.</li>
+    </ul>
+    <div class="muted"><strong>Key watchouts</strong></div>
+    <ul class="list">
+      <li>use blocking messages only when necessary,</li>
+      <li>target the exact field,</li>
+      <li>avoid heavy validations (performance),</li>
+      <li>do not duplicate logic with determinations.</li>
+    </ul>
+    <div class="muted">Poor validations can:</div>
+    <ul class="list">
+      <li>unnecessarily block users,</li>
+      <li>degrade the Fiori experience,</li>
+      <li>complicate future evolution.</li>
+    </ul>
+    <div class="muted"><strong>Compared with classic ABAP</strong></div>
+    <div class="muted">Classic validations are often scattered in CHECKs or PAI logic.</div>
+    <div class="muted">In RAP they are centralized, declarative, and framework-executed.</div>
+    <div class="muted"><strong>Why they matter</strong></div>
+    <ul class="list">
+      <li>only consistent data reaches the database,</li>
+      <li>business rules are applied uniformly,</li>
+      <li>the app behaves like SAP standard.</li>
+    </ul>
+    <div class="muted">Their correct use signals strong RAP quality and maturity.</div>
+  </details>
+  <div class="step-takeaway"></div>
+</article>
+
+        <article class="card step-card">
+  <div class="step-header">6. Determinations</div>
+  <p class="muted">Goal: automate business rules.</p>
+  <img
+    class="step-image image-placeholder"
+    src="/profile/Determinations.png"
+    alt="Determinations screenshot"
+    loading="lazy"
+  />
+  <details class="code-toggle">
+    <summary>See explanation</summary>
+    <div class="muted"><strong>Role of determinations</strong></div>
+    <div class="muted">
+      Determinations enrich or adjust data automatically without blocking the user.
+    </div>
+    <div class="muted">
+      Unlike validations, a determination is triggered by the framework to compute, complete, or
+      synchronize fields.
+    </div>
+    <div class="muted">They are ideal for implicit business rules.</div>
+    <div class="muted"><strong>Place in RAP</strong></div>
+    <div class="muted">Determinations are part of the Behavior Definition (BDEF) and run:</div>
+    <ul class="list">
+      <li>on draft creation,</li>
+      <li>on modification.</li>
+    </ul>
+    <div class="muted">
+      They run inside the draft cycle, ensuring active data remains consistent.
+    </div>
+    <div class="muted"><strong>Where to define determinations</strong></div>
+    <div class="muted">Declared in the Behavior Definition:</div>
+    <pre class="code-block">determination set_defaults on modify &#123; create; field status; &#125;</pre>
+    <div class="muted">Logic is implemented in the behavior class.</div>
+    <div class="muted"><strong>In Coffee Subscription</strong></div>
+    <ul class="list">
+      <li>initialize subscription status on create,</li>
+      <li>calculate next delivery date based on frequency,</li>
+      <li>keep business fields consistent.</li>
+    </ul>
+    <div class="muted">Users do not need to enter these values manually.</div>
+    <div class="muted"><strong>Watchouts</strong></div>
+    <ul class="list">
+      <li>do not replace validations with determinations,</li>
+      <li>avoid side effects (unwanted loops),</li>
+      <li>respect user-entered values when appropriate,</li>
+      <li>keep logic simple and predictable.</li>
+    </ul>
+    <div class="muted">Poor determinations can override user data or confuse behavior.</div>
+    <div class="muted"><strong>Compared with classic ABAP</strong></div>
+    <div class="muted">Classic logic is often scattered across exits or UI code.</div>
+    <div class="muted">In RAP, determinations are centralized and declarative.</div>
+    <div class="muted"><strong>Why they are key in this project</strong></div>
+    <ul class="list">
+      <li>reduce manual input,</li>
+      <li>strengthen data reliability,</li>
+      <li>deliver a SAP-standard experience.</li>
+    </ul>
+    <div class="muted">Their use reflects solid RAP lifecycle understanding.</div>
+  </details>
+  <div class="step-takeaway"></div>
+</article>
+
+        <article class="card step-card">
+  <div class="step-header">7. Actions</div>
+  <p class="muted">Goal: trigger targeted actions.</p>
+  <img
+    class="step-image image-placeholder"
+    src="/profile/Actions.png"
+    alt="Actions screenshot"
+    loading="lazy"
+  />
+  <details class="code-toggle">
+    <summary>See explanation</summary>
+    <div class="muted"><strong>Role of actions</strong></div>
+    <div class="muted">
+      RAP actions trigger explicit business operations initiated by the user.
+    </div>
+    <div class="muted">
+      In Coffee Subscription, actions represent controlled lifecycle transitions.
+    </div>
+    <div class="muted">Actions are:</div>
+    <ul class="list">
+      <li>exposed automatically in Fiori Elements as buttons,</li>
+      <li>executed transactionally in the behavior implementation.</li>
+    </ul>
+    <div class="muted"><strong>Where to define actions</strong></div>
+    <div class="muted">Actions are declared in the Behavior Definition:</div>
+    <pre class="code-block">action pause;
+action unpause;
+action cancel;</pre>
+    <div class="muted">Business logic is implemented in the behavior class.</div>
+    <div class="muted"><strong>Lifecycle transitions</strong></div>
+    <ul class="list">
+      <li>ACTIVE: subscription active</li>
+      <li>PAUSED: subscription paused</li>
+      <li>CANCELED: subscription stopped</li>
+    </ul>
+    <div class="muted">
+      These transitions reflect real business gestures and are common in production systems.
+    </div>
+    <div class="muted"><strong>Implementation watchouts</strong></div>
+    <ul class="list">
+      <li>verify current state before allowing an action,</li>
+      <li>prevent invalid transitions,</li>
+      <li>handle user messages clearly,</li>
+      <li>secure actions with authorizations if needed.</li>
+    </ul>
+    <div class="muted">Poorly controlled actions can create inconsistent states.</div>
+    <div class="muted"><strong>Compared with classic ABAP</strong></div>
+    <div class="muted">Classic logic is often spread across screen buttons or event code.</div>
+    <div class="muted">
+      In RAP, actions are centralized in the business model and automatically integrated into the UI.
+    </div>
+    <div class="muted"><strong>Why actions are a project strength</strong></div>
+    <ul class="list">
+      <li>clarify the subscription lifecycle,</li>
+      <li>offer explicit, controlled interactions,</li>
+      <li>stay aligned with SAP standard behavior.</li>
+    </ul>
+  </details>
+  <div class="step-takeaway"></div>
+</article>
+
+        <article id="vh" class="card step-card">
+  <div class="step-header">8. Value Helps</div>
+  <p class="muted">Goal: simplify data entry.</p>
+  <img
+    class="step-image image-placeholder"
+    src="/profile/VH.png"
+    alt="Fiori value helps screenshot"
+    loading="lazy"
+  />
+  <details class="code-toggle">
+    <summary>See explanation</summary>
+    <div class="muted"><strong>Value Helps (VH) in SAP RAP</strong></div>
+    <div class="muted">
+      Value Helps guide user input by offering controlled values directly in the Fiori UI.
+    </div>
+    <div class="muted">In RAP, they are typically implemented via:</div>
+    <ul class="list">
+      <li>a dedicated CDS Value Help view,</li>
+      <li>linked to the field via annotation in the CDS Projection.</li>
+    </ul>
+    <div class="muted">This approach:</div>
+    <ul class="list">
+      <li>secures input data,</li>
+      <li>improves user experience,</li>
+      <li>centralizes selection logic.</li>
+    </ul>
+    <div class="muted"><strong>Implementation principle</strong></div>
+    <ul class="list">
+      <li>Create a Value Help CDS with allowed values</li>
+      <li>Associate it with the target field via annotation</li>
+      <li>Fiori Elements handles the UI display automatically</li>
+    </ul>
+    <div class="muted"><strong>Coffee Subscription usage</strong></div>
+    <ul class="list">
+      <li>coffee type,</li>
+      <li>delivery frequency,</li>
+      <li>subscription status.</li>
+    </ul>
+    <div class="muted">Users select consistent values without free text.</div>
+    <div class="muted"><strong>Key point</strong></div>
+    <div class="muted">
+      Value Helps are native to the RAP model, with no UI-specific logic, ensuring a clean,
+      maintainable application.
+    </div>
+  </details>
+  <div class="step-takeaway"></div>
+</article>
+
+        <article class="card step-card">
+  <div class="step-header">9. Error handling</div>
+  <p class="muted">Goal: handle errors cleanly.</p>
+  <img
+    class="step-image image-placeholder"
+    src="/profile/Error.png"
+    alt="Fiori error handling screenshot"
+    loading="lazy"
+  />
+  <details class="code-toggle">
+    <summary>See explanation</summary>
+    <div class="muted"><strong>General principle</strong></div>
+    <div class="muted">
+      In SAP RAP, error handling is centralized by the framework. Messages are returned to the Fiori
+      UI without UI-specific logic.
+    </div>
+    <div class="muted">Errors typically come from:</div>
+    <ul class="list">
+      <li>Validations</li>
+      <li>Actions</li>
+      <li>Determinations (rarely blocking)</li>
+    </ul>
+    <div class="muted"><strong>RAP message types</strong></div>
+    <div class="table">
+      <div class="table-row table-header">
+        <span>Type</span>
+        <span>Effect</span>
+        <span>Usage</span>
+      </div>
+      <div class="table-row">
+        <span>Error</span>
+        <span>Blocking</span>
+        <span>Invalid data, business rule violation</span>
+      </div>
+      <div class="table-row">
+        <span>Warning</span>
+        <span>Non-blocking</span>
+        <span>Important information</span>
+      </div>
+      <div class="table-row">
+        <span>Information</span>
+        <span>Informational</span>
+        <span>User feedback</span>
+      </div>
+      <div class="table-row">
+        <span>Success</span>
+        <span>Success</span>
+        <span>Action confirmation</span>
+      </div>
+    </div>
+    <div class="muted"><strong>In practice</strong></div>
+    <div class="muted">Error is most used for critical business rules.</div>
+    <div class="muted"><strong>Simple example</strong></div>
+    <pre class="code-block">APPEND VALUE #(
+  %msg = new_message(
+    id       = 'ZMSG'
+    number   = '001'
+    severity = if_abap_behv_message=&gt;severity-error
+    v1       = 'Invalid subscription data'
+  )
+) TO reported.</pre>
+    <ul class="list">
+      <li>severity-error blocks save</li>
+      <li>the message is displayed automatically in the UI</li>
+    </ul>
+    <div class="muted"><strong>Coffee Subscription examples</strong></div>
+    <ul class="list">
+      <li>quantity is zero or negative,</li>
+      <li>delivery frequency is missing,</li>
+      <li>an action (Pause / Unpause / Cancel) is triggered in an invalid state.</li>
+    </ul>
+    <div class="muted">In those cases:</div>
+    <ul class="list">
+      <li>a blocking message is shown,</li>
+      <li>the object remains in draft,</li>
+      <li>the user can correct without data loss.</li>
+    </ul>
+    <div class="muted"><strong>Best practices</strong></div>
+    <ul class="list">
+      <li>use clear, business-oriented messages,</li>
+      <li>block only when necessary,</li>
+      <li>keep draft active for correction,</li>
+      <li>test messages in the UI.</li>
+    </ul>
+    <div class="muted"><strong>Key point</strong></div>
+    <div class="muted">
+      Good RAP error handling ensures reliable data, smooth UX, and SAP-standard behavior.
+    </div>
+  </details>
+  <div class="step-takeaway"></div>
+</article>
+      </section>
+
+      <section id="regles" class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 6h16"></path>
+              <path d="M4 12h16"></path>
+              <path d="M4 18h10"></path>
+            </svg>
+          </span>
+          <h2>Business rules</h2>
+        </div>
+        <div class="card">
+          <p class="muted">
+            Save-time validations, automatic determinations, and status consistency to simulate a
+            production-like context.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 12h16"></path>
+              <path d="M8 6h8"></path>
+              <path d="M8 18h8"></path>
+            </svg>
+          </span>
+          <h2>Cycle RAP (du point de vue utilisateur)</h2>
+        </div>
+        <div class="card flow-card">
+          <div class="flow-steps">
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M8 12h8"></path>
+                </svg>
+              </span>
+              <span>Create a subscription &rarr; Draft created</span>
+            </div>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 12h16"></path>
+                  <path d="M12 4v16"></path>
+                </svg>
+              </span>
+              <span>Choix type/frequence &rarr; Value Helps</span>
+            </div>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 4h16v6H4z"></path>
+                  <path d="M4 14h16v6H4z"></path>
+                </svg>
+              </span>
+              <span>Determinations auto (ex: prochaine livraison)</span>
+            </div>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12l4 4L19 6"></path>
+                </svg>
+              </span>
+              <span>Validations (quantity &gt; 0, frequency not initial)</span>
+            </div>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 7h16"></path>
+                  <path d="M4 12h16"></path>
+                  <path d="M4 17h10"></path>
+                </svg>
+              </span>
+              <span>Error: message shown, draft kept</span>
+            </div>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <div class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 5v14"></path>
+                  <path d="M5 12h14"></path>
+                </svg>
+              </span>
+              <span>OK: Save/Activate &rarr; active instance, draft removed</span>
+            </div>
+          </div>
+          <p class="muted flow-example">
+            Example: Arabica type, monthly frequency, quantity 3. The next delivery is pre-calculated,
+            validations pass, and the active instance is created.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+              <path d="M8 18h8"></path>
+            </svg>
+          </span>
+          <h2>Application preview</h2>
+        </div>
+        <div class="carousel" data-carousel>
+          <button class="carousel__nav carousel__nav--prev" type="button" aria-label="Previous image">
+            &#x2039;
+          </button>
+          <div class="carousel__track">
+            <div class="carousel__slide is-active">
+              <img
+                src="/profile/App1.png"
+                alt="Fiori application preview"
+                loading="lazy"
+              />
+            </div>
+            <div class="carousel__slide">
+              <img
+                src="/profile/App2.png"
+                alt="Fiori application preview"
+                loading="lazy"
+              />
+            </div>
+            <div class="carousel__slide">
+              <img
+                src="/profile/App3.png"
+                alt="Fiori application preview"
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <button class="carousel__nav carousel__nav--next" type="button" aria-label="Next image">
+            &#x203A;
+          </button>
+        </div>
+      </section>
+
+      <section id="debug" class="section">
+        <div class="section-title">
+          <span class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 12h16"></path>
+              <path d="M9 4v16"></path>
+              <path d="M15 4v16"></path>
+            </svg>
+          </span>
+          <h2>Debug &amp; challenges</h2>
+        </div>
+        <div class="grid">
+          <article class="card incident-card">
+            <div class="card-title">Issue</div>
+            <p class="muted">Blocking metadata, UI would not open.</p>
+            <div class="card-title">Analysis</div>
+            <p class="muted">Inconsistency on a criticality annotation.</p>
+            <div class="card-title">Fix</div>
+            <p class="muted">Cleaned annotations and retested OData.</p>
+            <div class="card-title">Lesson</div>
+            <p class="muted">Always validate metadata after a change.</p>
+          </article>
+          <article class="card incident-card">
+            <div class="card-title">Issue</div>
+            <p class="muted">Draft not saved correctly.</p>
+            <div class="card-title">Analysis</div>
+            <p class="muted">Missing mandatory field in persistence.</p>
+            <div class="card-title">Fix</div>
+            <p class="muted">Aligned table and CDS.</p>
+            <div class="card-title">Lesson</div>
+            <p class="muted">Test edge cases early.</p>
+          </article>
+          <article class="card incident-card">
+            <div class="card-title">Issue</div>
+            <p class="muted">Determination errors.</p>
+            <div class="card-title">Analysis</div>
+            <p class="muted">Incorrect type in the handler.</p>
+            <div class="card-title">Fix</div>
+            <p class="muted">Adjusted signatures and added targeted logs.</p>
+            <div class="card-title">Lesson</div>
+            <p class="muted">Isolate critical handlers.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="conclusion" class="section">
+        <div class="card cta-card">
+          <div>
+            <h2>Conclusion</h2>
+            <p class="muted">
+              This project helped me consolidate RAP fundamentals, better structure the architecture,
+              and improve my debugging skills. In V2, I will add performance optimizations and more UI
+              automation. If you want to learn more about my approach or SAP topics (RAP, ABAP, Fiori,
+              performance, debugging), I share everything on my Blogs page.
+            </p>
+          </div>
+          <a class="button ghost" href="/en/blogs">Read blogs</a>
+        </div>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  const initCarousel = () => {
+    const carousels = document.querySelectorAll("[data-carousel]");
+    carousels.forEach((carousel) => {
+      const slides = Array.from(carousel.querySelectorAll(".carousel__slide"));
+      const prev = carousel.querySelector(".carousel__nav--prev");
+      const next = carousel.querySelector(".carousel__nav--next");
+      let index = 0;
+
+      const show = (newIndex) => {
+        slides[index].classList.remove("is-active");
+        index = (newIndex + slides.length) % slides.length;
+        slides[index].classList.add("is-active");
+      };
+
+      prev.addEventListener("click", (event) => {
+        event.preventDefault();
+        show(index - 1);
+      });
+      next.addEventListener("click", (event) => {
+        event.preventDefault();
+        show(index + 1);
+      });
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCarousel);
+  } else {
+    initCarousel();
+  }
+</script>
+
+
+
+
+
+
+
+
+

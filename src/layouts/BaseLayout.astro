@@ -1,17 +1,19 @@
 ﻿---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { getLangFromPath } from "../i18n";
 import "../styles/global.css";
 
 const {
   title = "Consultant SAP Technique",
   description =
     "Portfolio d'un consultant SAP technique : ABAP, SAP Fiori, RAP, BTP et CAP.",
+  lang = getLangFromPath(Astro.url.pathname),
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="fr">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -25,11 +27,30 @@ const {
     <div class="bg-wash" aria-hidden="true"></div>
     <div class="bg-orbit" aria-hidden="true"></div>
     <div class="site sap-bg">
-      <Header />
+      <Header lang={lang} />
       <main class="main">
         <slot />
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </div>
   </body>
 </html>
+
+<script is:inline>
+  if (typeof window !== "undefined") {
+    const isHome = window.location.pathname === "/";
+    if (isHome) {
+      try {
+        const stored = localStorage.getItem("preferredLang");
+        if (!stored) {
+          const browserLang = navigator.language?.toLowerCase() || "";
+          if (browserLang.startsWith("en")) {
+            window.location.replace("/en");
+          }
+        }
+      } catch (error) {
+        // Storage access can fail in private mode; ignore and stay on French.
+      }
+    }
+  }
+</script>

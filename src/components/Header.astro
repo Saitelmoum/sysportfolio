@@ -1,16 +1,59 @@
+---
+import { getLangFromPath, getSwitchUrl, translations } from "../i18n";
+
+const { lang = getLangFromPath(Astro.url.pathname) } = Astro.props;
+const t = translations[lang];
+const isFrench = lang === "fr";
+const navLinks = [
+  { href: isFrench ? "/" : "/en", label: t.nav.home },
+  { href: isFrench ? "/projects" : "/en/projects", label: t.nav.projects },
+  { href: isFrench ? "/about" : "/en/about", label: t.nav.about },
+  { href: isFrench ? "/contact" : "/en/contact", label: t.nav.contact },
+];
+const blogsHref = isFrench ? "/blogs" : "/en/blogs";
+const cvHref = isFrench ? "/cv/CV_FR.pdf" : "/cv/CV_EN.pdf";
+const cvDownload = isFrench
+  ? "Salah_Aitelmoumen_FR.pdf"
+  : "Salah_Aitelmoumen_EN.pdf";
+const switchUrl = getSwitchUrl(Astro.url.pathname);
+const switchTarget = isFrench ? "en" : "fr";
+---
+
 <header class="site-header">
   <div class="container nav">
-    <a class="brand" href="/">
+    <a class="brand" href={isFrench ? "/" : "/en"}>
       <span class="brand-title">Salah AITELMOUMEN</span>
-      <span class="brand-sub">Consultant SAP Technique (ABAP &bull; Fiori &bull; RAP)</span>
+      <span class="brand-sub" set:html={t.header.subtitle}></span>
     </a>
     <nav class="nav-links">
-      <a href="/">Accueil</a>
-      <a href="/projects">Projets</a>
-      <a href="/about">&Agrave; propos</a>
-      <a href="/contact">Contact</a>
-      <a class="nav-cta secondary" href="/blogs">Blogs</a>
-      <a class="nav-cta" href="/cv/CV_FR.pdf" download="Salah_AITELMOUMEN_CV_FR.pdf">T&eacute;l&eacute;charger CV</a>
+      {navLinks.map((item) => (
+        <a href={item.href} set:html={item.label}></a>
+      ))}
+      <a class="nav-cta secondary" href={blogsHref} set:html={t.nav.blogs}></a>
+      <a class="nav-cta" href={cvHref} download={cvDownload} set:html={t.nav.cv}></a>
+      <a
+        class="nav-cta secondary lang-switch"
+        href={switchUrl}
+        data-lang-switch
+        data-lang-target={switchTarget}
+        set:html={t.nav.switchLabel}
+      ></a>
     </nav>
   </div>
 </header>
+
+<script is:inline>
+  const langSwitches = document.querySelectorAll("[data-lang-switch]");
+  langSwitches.forEach((link) => {
+    link.addEventListener("click", () => {
+      try {
+        const target = link.getAttribute("data-lang-target");
+        if (target) {
+          localStorage.setItem("preferredLang", target);
+        }
+      } catch (error) {
+        // Ignore storage errors.
+      }
+    });
+  });
+</script>

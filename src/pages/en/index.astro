@@ -1,0 +1,136 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
+import IconBullet from "../../components/IconBullet.astro";
+---
+
+<BaseLayout
+  lang="en"
+  title="SAP Technical Consultant | Portfolio"
+  description="Portfolio of a SAP technical consultant: ABAP, SAP Fiori, RAP, BTP, and CAP."
+>
+  <section class="welcome-section">
+    <div class="container welcome-grid">
+      <div class="welcome-text">
+        <h1>From ABAP code to modern SAP architectures</h1>
+        <p class="lead">
+          I have been a SAP technical consultant for almost three years. I started with classic
+          ABAP, working on concrete needs and production issues.
+        </p>
+        <p class="lead">
+          Over time, I expanded into SAP Fiori and SAPUI5, where I am certified. In parallel, I
+          built a solid understanding of SAP business flows, with a stronger focus on the SD
+          module, also certified.
+        </p>
+        <p class="lead">
+          Today, I continue this progression with SAP RAP, SAP BTP, and modern SAP development
+          tools, with a focus on quality and project best practices.
+        </p>
+        <p class="lead">
+          This site is my portfolio. Feel free to reach out for an opportunity or just to connect.
+        </p>
+      </div>
+      <div class="welcome-divider" aria-hidden="true"></div>
+      <div class="welcome-photo">
+        <img
+          src="/profile/salah.jpg"
+          alt="Salah AITELMOUMEN - SAP Technical Consultant"
+          class="profile-photo"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="card hero-card">
+      <h2>Hands-on expertise</h2>
+      <ul class="expertise-list">
+        <li>
+          <IconBullet
+            icon="code"
+            title="ABAP OO development"
+            text=": Z programs, ALV, SmartForms, IDocs, BAPIs, BADIs, user exits, and enhancements."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="layers"
+            title="SAP Fiori / UI5"
+            text=": Fiori apps, UI5 freestyle, CDS Views, SAP Gateway, OData V2 &amp; V4, Postman testing."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="workflow"
+            title="ABAP RAP (growing expertise)"
+            text=": ADT, CDS entities, Behavior Definitions (BDEF), Service Binding, OData V4."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="file"
+            title="Technical documentation"
+            text=": technical analysis, specifications, unit testing, and end-to-end solution docs."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="settings"
+            title="SD functional analysis &amp; SPRO customizing"
+            text=": understanding business flows and techno-functional integration."
+          />
+        </li>
+        <li>
+          <IconBullet
+            icon="shield"
+            title="Cross-cutting topics &amp; performance"
+            text=": transports (STMS), authorizations (SU53), performance analysis (ST05, SAT)."
+          />
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Featured Projects</h2>
+    <div class="grid">
+      <article class="card featured">
+        <h3>Coffee Subscription (RAP) [Featured]</h3>
+        <p>End-to-end RAP service for subscription management and recurring orders.</p>
+        <div class="tag-row">
+          <span class="tag-label"><Icon name="tag" />Tags</span>
+          <span class="tag">RAP Managed</span>
+          <span class="tag">Draft</span>
+          <span class="tag">OData V4</span>
+          <span class="tag">Fiori elements</span>
+        </div>
+        <p class="note"><a href="/en/projects/coffee-subscription">Open case study</a></p>
+      </article>
+
+      <article class="card">
+        <h3>SAP QM Stock Automation [WIP]</h3>
+        <p>Automation for SAP QM inspections, stock checks, and notification flows.</p>
+        <div class="tag-row">
+          <span class="tag-label"><Icon name="tag" />Tags</span>
+          <span class="tag">QM</span>
+          <span class="tag">ABAP</span>
+          <span class="tag">Workflow</span>
+        </div>
+        <span class="status wip">WIP</span>
+      </article>
+
+      <article class="card">
+        <h3>BTP/CAP Mini App [Planned]</h3>
+        <p>Planned CAP micro-app for data capture and service exposure on BTP.</p>
+        <div class="tag-row">
+          <span class="tag-label"><Icon name="tag" />Tags</span>
+          <span class="tag">BTP</span>
+          <span class="tag">CAP</span>
+          <span class="tag">API</span>
+        </div>
+        <span class="status planned">Planned</span>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,7 +1,14 @@
+---
+import { getLangFromPath, translations } from "../i18n";
+
+const { lang = getLangFromPath(Astro.url.pathname) } = Astro.props;
+const t = translations[lang];
+---
+
 <footer class="site-footer">
   <div class="container footer-grid">
     <div>
-      <p class="footer-title">Consultant SAP Technique</p>
+      <p class="footer-title" set:html={t.footer.title}></p>
       <p class="footer-note footer-item">
         <span class="footer-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24">
@@ -9,7 +16,7 @@
             <path d="M8 7V5h8v2"></path>
           </svg>
         </span>
-        Disponible pour missions SAP S/4HANA, ABAP et Fiori.
+        <span set:html={t.footer.availability}></span>
       </p>
       <p class="footer-note footer-item">
         <span class="footer-icon" aria-hidden="true">
@@ -25,7 +32,7 @@
       </p>
     </div>
     <div>
-      <p class="footer-label">Contact</p>
+      <p class="footer-label" set:html={t.footer.contactLabel}></p>
       <p class="footer-note footer-item">
         <span class="footer-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24">
@@ -33,7 +40,7 @@
             <circle cx="12" cy="10" r="2.5"></circle>
           </svg>
         </span>
-        Avenue Etienne Billi&egrave;res, 31300 Toulouse
+        <span set:html={t.footer.address}></span>
       </p>
       <p class="footer-note footer-item">
         <span class="footer-icon" aria-hidden="true">

@@ -1,0 +1,134 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { blogs, getBlogBySlug } from "../../../data/blogs-en";
+
+export function getStaticPaths() {
+  return blogs.map((blog) => ({ params: { slug: blog.slug } }));
+}
+
+const { slug } = Astro.params;
+const post = getBlogBySlug(slug);
+
+if (!post) {
+  throw new Error("Blog post not found");
+}
+
+const toc = post.sections.map((section) => ({
+  id: section.id,
+  titleHtml: section.headingHtml,
+}));
+
+const recentPosts = blogs
+  .filter((blog) => blog.slug !== post.slug)
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 3);
+
+const ogImage = post.coverImage || "/favicon.svg";
+---
+
+<BaseLayout
+  lang="en"
+  title={`${post.titleText} | Blogs`}
+  description={post.descriptionText}
+>
+  <Fragment slot="head">
+    <meta property="og:title" content={post.titleText} />
+    <meta property="og:description" content={post.descriptionText} />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content={ogImage} />
+  </Fragment>
+
+  <section class="container blog-article-hero">
+    <a class="button ghost" href="/en/blogs">&larr; Back to blogs</a>
+    <h1 set:html={post.titleHtml}></h1>
+    <div class="article-meta">
+      <span>{new Date(post.date).toLocaleDateString("en-US")}</span>
+      <span>{post.readingTime} min read</span>
+    </div>
+  </section>
+
+  <section class="container article-layout">
+    <aside class="toc-card">
+      <div class="card">
+        <div class="card-title">Table of contents</div>
+        <nav class="toc">
+          {toc.map((item) => (
+            <a href={`#${item.id}`} set:html={item.titleHtml}></a>
+          ))}
+        </nav>
+      </div>
+      <button class="button ghost" type="button" data-copy-link>Share link</button>
+      <span class="copy-status" data-copy-status aria-live="polite"></span>
+    </aside>
+
+    <article class="article-content">
+      {post.sections.map((section) => (
+        <section id={section.id} class="article-section">
+          <h2 set:html={section.headingHtml}></h2>
+          {section.bodyHtml?.map((paragraph) => (
+            <p class="muted" set:html={paragraph}></p>
+          ))}
+          {section.blocksHtml?.map((block) => (
+            <div set:html={block}></div>
+          ))}
+          {section.listHtml ? (
+            <ul class="list">
+              {section.listHtml.map((item) => (
+                <li set:html={item}></li>
+              ))}
+            </ul>
+          ) : null}
+        </section>
+      ))}
+    </article>
+  </section>
+
+  <section class="container recent-posts">
+    <div class="section-title">
+      <h2>Recent posts</h2>
+    </div>
+    <div class="blog-grid">
+      {recentPosts.map((item) => (
+        <article class="card blog-card">
+          <div class="blog-cover">
+            {item.coverImage ? (
+              <img src={item.coverImage} alt="Blog cover" loading="lazy" />
+            ) : (
+              <div class="blog-cover-fallback" aria-hidden="true"></div>
+            )}
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-tags">
+              {item.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+            <h3 set:html={item.titleHtml}></h3>
+            <p class="muted" set:html={item.descriptionHtml}></p>
+            <div class="blog-meta">
+              <span>{new Date(item.date).toLocaleDateString("en-US")}</span>
+              <span>{item.readingTime} min read</span>
+            </div>
+            <a class="button ghost" href={`/en/blogs/${item.slug}`}>Read</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  const copyButton = document.querySelector("[data-copy-link]");
+  const status = document.querySelector("[data-copy-status]");
+
+  if (copyButton && status) {
+    copyButton.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        status.textContent = "Link copied.";
+      } catch (error) {
+        status.textContent = "Copy failed.";
+      }
+    });
+  }
+</script>
